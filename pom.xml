@@ -36,7 +36,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
+			<artifactId>gwt-dev</artifactId>
 			<version>2.0.0-trunk</version>
 			<scope>provided</scope>
 		</dependency>
@@ -44,6 +44,11 @@
 			<groupId>org.vectomatic</groupId>
 			<artifactId>libgwtsvg</artifactId>
 			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.java2html</groupId>
+			<artifactId>java2html</artifactId>
+			<version>5.0</version>
 		</dependency>
 	</dependencies>
 	<properties>
@@ -71,12 +76,13 @@
 						<id>gwt compilation</id>
 						<configuration>
 							<modules>
-								<module>org.vectomatic.dynsvg2</module>
+								<module>org.vectomatic.svg.samples.libgwtsvgsamples</module>
 							</modules>
-							<style>DETAILED</style>
-							<logLevel>WARN</logLevel>
+							<style>${gwt.style}</style>
+							<!-- <style>OBF</style>-->
+							<logLevel>${gwt.logLevel}</logLevel>
 							<extraJvmArgs>-Xmx512m</extraJvmArgs>
-							<localWorkers>1</localWorkers>
+							<localWorkers>${gwt.localWorkers}</localWorkers>
 						</configuration>
 						<goals>
 							<goal>compile</goal>
@@ -96,4 +102,69 @@
 		</plugins>
 		<finalName>libgwtsvg-samples</finalName>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+	<distributionManagement>
+		<repository>
+			<id>${deployment.id}</id>
+			<name>maven repository</name>
+			<url>${deployment.root}/mvn</url>
+		</repository>
+		<site>
+			<id>${deployment.id}</id>
+			<name>maven site</name>
+			<url>${deployment.root}/mvn-sites/${project.artifactId}</url>
+		</site>
+	</distributionManagement>
+	<profiles>
+		<!-- There are two build profiles: development and production
+		+ by default, the production profile is assumed
+		  It builds all GWT permutations and generates reports for the website
+		+ Use the '-P development' mvn flag, or within eclipse, set the
+		  Project > Properties > Maven > Active Maven Profiles to 'development'
+		  to activate the development profile
+		 -->
+		<profile>
+			<id>development</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<deployment.id>local-server</deployment.id>
+				<deployment.root>scp://localhost/var/www/vectomatic</deployment.root>
+ 				<!-- Build options for development mode -->
+    			<gwt.style>DETAILED</gwt.style>
+    			<gwt.logLevel>WARN</gwt.logLevel>
+    			<gwt.localWorkers>1</gwt.localWorkers>
+    		</properties>
+		</profile>
+		<profile>
+			<id>production</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+ 				<!-- Build options for production mode -->
+    			<gwt.style>OBF</gwt.style>
+    			<gwt.logLevel>INFO</gwt.logLevel>
+    			<gwt.localWorkers>2</gwt.localWorkers>
+    		</properties>
+		</profile>
+	</profiles>
 </project>
