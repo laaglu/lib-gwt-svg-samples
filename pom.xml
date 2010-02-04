@@ -4,7 +4,7 @@
 	<groupId>org.vectomatic</groupId>
 	<artifactId>libgwtsvg-samples</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1</version>
+	<version>0.2</version>
 	<name>libgwtsvg-samples</name>
 	<description>Samples to demonstrate basic use of libgwtsvg, a GWT library to access the SVG functionalities of web browsers</description>
 	<url>http://www.vectomatic.org/mvn-sites/libgwtsvg</url>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>org.vectomatic</groupId>
 			<artifactId>libgwtsvg</artifactId>
-			<version>0.0.1</version>
+			<version>0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>de.java2html</groupId>

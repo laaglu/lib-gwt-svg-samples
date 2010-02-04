@@ -19,17 +19,17 @@ package org.vectomatic.svg.samples.client.shapes;
 
 import org.vectomatic.dom.svg.OMSVGDocument;
 import org.vectomatic.dom.svg.OMSVGEllipseElement;
+import org.vectomatic.dom.svg.OMSVGLength;
 import org.vectomatic.dom.svg.OMSVGPathElement;
 import org.vectomatic.dom.svg.OMSVGPathSegList;
 import org.vectomatic.dom.svg.OMSVGRectElement;
 import org.vectomatic.dom.svg.OMSVGSVGElement;
 import org.vectomatic.dom.svg.OMSVGTextElement;
-import org.vectomatic.dom.svg.gwt.SVGConstants;
-import org.vectomatic.dom.svg.gwt.SVGParser;
+import org.vectomatic.dom.svg.utils.OMSVGParser;
+import org.vectomatic.dom.svg.utils.SVGConstants;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Element;
@@ -59,37 +59,40 @@ public class ShapesSample extends SampleBase {
 			tabPanel.selectTab(0);
 			
 			// Create a SVG document
-			OMSVGDocument doc = SVGParser.createDocument();
+			OMSVGDocument doc = OMSVGParser.currentDocument();
 			
 			// Create the root svg element
-			OMSVGSVGElement svg =  doc.createElementNS(SVGConstants.SVG_NAMESPACE_URI, SVGConstants.SVG_SVG_TAG).cast();
-			svg.setAttribute(SVGConstants.SVG_VIEW_BOX_ATTRIBUTE, "0 0 100 200");
-			svg.setAttribute(SVGConstants.SVG_WIDTH_ATTRIBUTE, "200px");
-			svg.setAttribute(SVGConstants.SVG_HEIGHT_ATTRIBUTE, "400px");
-			
+			OMSVGSVGElement svg =  doc.createSVGSVGElement();
+			svg.getViewBox().getBaseVal().setX(0f);
+			svg.getViewBox().getBaseVal().setY(0f);
+			svg.getViewBox().getBaseVal().setWidth(100f);
+			svg.getViewBox().getBaseVal().setHeight(200f);
+			svg.getWidth().getBaseVal().setValueAsString("200px");
+			svg.getHeight().getBaseVal().setValueAsString("400px");
+
 			// Create a rect
-			OMSVGRectElement rect = doc.createElementNS(SVGConstants.SVG_NAMESPACE_URI, SVGConstants.SVG_RECT_TAG).cast();
-			rect.setAttribute(SVGConstants.SVG_X_ATTRIBUTE, "5");
-			rect.setAttribute(SVGConstants.SVG_Y_ATTRIBUTE, "35");
-			rect.setAttribute(SVGConstants.SVG_WIDTH_ATTRIBUTE, "50");
-			rect.setAttribute(SVGConstants.SVG_HEIGHT_ATTRIBUTE, "20");
-			rect.setAttribute(SVGConstants.SVG_RX_ATTRIBUTE, "4");
-			rect.setAttribute(SVGConstants.SVG_RY_ATTRIBUTE, "4");
-			rect.setAttribute(SVGConstants.CSS_FILL_PROPERTY, SVGConstants.CSS_LIGHTGREEN_VALUE);
-			rect.setAttribute(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLACK_VALUE);
+			OMSVGRectElement rect = doc.createSVGRectElement();
+			rect.getX().getBaseVal().setValue(5f);
+			rect.getY().getBaseVal().setValue(35f);
+			rect.getWidth().getBaseVal().setValue(50f);
+			rect.getHeight().getBaseVal().setValue(20f);
+			rect.getRx().getBaseVal().setValue(4f);
+			rect.getRy().getBaseVal().setValue(4f);
+			rect.getStyle().setSVGProperty(SVGConstants.CSS_FILL_PROPERTY, SVGConstants.CSS_LIGHTGREEN_VALUE);
+			rect.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLACK_VALUE);
 			
 			// Create an ellipse
-			OMSVGEllipseElement ellipse = doc.createElementNS(SVGConstants.SVG_NAMESPACE_URI, SVGConstants.SVG_ELLIPSE_TAG).cast();
-			ellipse.setAttribute(SVGConstants.SVG_CX_ATTRIBUTE, "60");
-			ellipse.setAttribute(SVGConstants.SVG_CY_ATTRIBUTE, "80");
-			ellipse.setAttribute(SVGConstants.SVG_RX_ATTRIBUTE, "30");
-			ellipse.setAttribute(SVGConstants.SVG_RY_ATTRIBUTE, "15");
-			ellipse.setAttribute(SVGConstants.CSS_FILL_PROPERTY, SVGConstants.CSS_YELLOW_VALUE);
-			ellipse.setAttribute(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLACK_VALUE);
-			ellipse.setAttribute(SVGConstants.CSS_STROKE_DASHARRAY_PROPERTY, "5,2,2,2");
+			OMSVGEllipseElement ellipse = doc.createSVGEllipseElement();
+			ellipse.getCx().getBaseVal().setValue(60f);
+			ellipse.getCy().getBaseVal().setValue(80f);
+			ellipse.getRx().getBaseVal().setValue(30f);
+			ellipse.getRy().getBaseVal().setValue(15f);
+			ellipse.getStyle().setSVGProperty(SVGConstants.CSS_FILL_PROPERTY, SVGConstants.CSS_YELLOW_VALUE);
+			ellipse.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLACK_VALUE);
+			ellipse.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_DASHARRAY_PROPERTY, "5,2,2,2");
 			
 			// Create a heart-shaped path
-			OMSVGPathElement path = doc.createElementNS(SVGConstants.SVG_NAMESPACE_URI, SVGConstants.SVG_PATH_TAG).cast();
+			OMSVGPathElement path = doc.createSVGPathElement();
 			OMSVGPathSegList segs = path.getPathSegList();
 			segs.appendItem(path.createSVGPathSegMovetoAbs(14.86487f, 27.54341f));
 			segs.appendItem(path.createSVGPathSegCurvetoCubicAbs(2.16163f, 16.27388f, 10.93614f, 23.44857f, 5.53039f, 20.93069f));
@@ -104,13 +107,17 @@ public class ShapesSample extends SampleBase {
 			segs.appendItem(path.createSVGPathSegCurvetoCubicRel(-3.12799f, 2.94243f, -1.08820f, 0.79363f, -2.28426f, 2.46524f));
 			segs.appendItem(path.createSVGPathSegCurvetoCubicRel(-1.03915f, -1.45272f, -0.28088f, -0.52741f, -0.64130f, -1.00829f));
 			segs.appendItem(path.createSVGPathSegClosePath());
-			path.setAttribute(SVGConstants.CSS_FILL_PROPERTY, SVGConstants.CSS_RED_VALUE);
+			path.getStyle().setSVGProperty(SVGConstants.CSS_FILL_PROPERTY, SVGConstants.CSS_RED_VALUE);
 			
 			// Create a text
-			OMSVGTextElement text = doc.createElementNS(SVGConstants.SVG_NAMESPACE_URI, SVGConstants.SVG_TEXT_TAG).cast();
-			text.setAttribute(SVGConstants.SVG_X_ATTRIBUTE, "10");
-			text.setAttribute(SVGConstants.SVG_Y_ATTRIBUTE, "120");
-			text.setAttribute(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLUE_VALUE);
+			OMSVGTextElement text = doc.createSVGTextElement();
+			OMSVGLength x = svg.createSVGLength();
+			x.setValue(10);
+			text.getX().getBaseVal().appendItem(x);
+			OMSVGLength y = svg.createSVGLength();
+			y.setValue(120);
+			text.getY().getBaseVal().appendItem(y);
+			text.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLUE_VALUE);
 			text.appendChild(doc.createTextNode("Hello, World"));
 
 			svg.appendChild(rect);
@@ -120,9 +127,8 @@ public class ShapesSample extends SampleBase {
 			
 			// Insert the SVG root element into the HTML UI
 			// Note that the elements must be imported in the UI since they come from another XML document
-			DivElement div = svgContainer.getElement().cast();
-			Element importedSvg = SVGParser.importNode(div.getOwnerDocument(), (Element)svg.cast(), true).cast();
-			div.appendChild((Element)importedSvg.cast());
+			Element div = svgContainer.getElement();
+			div.appendChild(svg.getElement());
 		}
 		return panel;
 	}
