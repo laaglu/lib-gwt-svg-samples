@@ -17,13 +17,11 @@
  **********************************************/
 package org.vectomatic.svg.samples.client.parser;
 
-import org.vectomatic.dom.svg.OMSVGDocument;
 import org.vectomatic.dom.svg.OMSVGSVGElement;
-import org.vectomatic.dom.svg.gwt.SVGParser;
+import org.vectomatic.dom.svg.utils.OMSVGParser;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.http.client.Request;
@@ -86,20 +84,16 @@ public class ParserSample extends SampleBase {
 
 			public void onResponseReceived(Request request, Response response) {
 				// Parse the document
-				OMSVGDocument doc = SVGParser.parse(response.getText());
-				
-				// Get the document root
-				OMSVGSVGElement svg = doc.getDocumentElement().cast();
+				OMSVGSVGElement svg = OMSVGParser.parse(response.getText());
 				
 				// Insert the SVG root element into the HTML UI
 				// Note that the elements must be imported in the UI since they come from another XML document
-				DivElement div = svgContainer.getElement().cast();
+				Element div = svgContainer.getElement();
 				div.getStyle().setHeight(600, Style.Unit.PX);
-				Element importedSvg = SVGParser.importNode(div.getOwnerDocument(), (Element)svg.cast(), true).cast();
 				if (div.hasChildNodes()) {
-					div.replaceChild(importedSvg, div.getFirstChild());
+					div.replaceChild(svg.getElement(), div.getFirstChild());
 				} else {
-					div.appendChild((Element)importedSvg.cast());					
+					div.appendChild(svg.getElement());					
 				}
 			}
 		});
@@ -111,5 +105,4 @@ public class ParserSample extends SampleBase {
 			GWT.log("Cannot fetch HTML source for " + svgDocument, e);
 		}
 	}
-
 }

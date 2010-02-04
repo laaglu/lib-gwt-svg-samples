@@ -17,15 +17,14 @@
  **********************************************/
 package org.vectomatic.svg.samples.client.events;
 
+import org.vectomatic.dom.svg.OMSVGCircleElement;
 import org.vectomatic.dom.svg.OMSVGDocument;
-import org.vectomatic.dom.svg.OMSVGEllipseElement;
 import org.vectomatic.dom.svg.OMSVGSVGElement;
-import org.vectomatic.dom.svg.gwt.SVGConstants;
-import org.vectomatic.dom.svg.gwt.SVGParser;
+import org.vectomatic.dom.svg.utils.OMSVGParser;
+import org.vectomatic.dom.svg.utils.SVGConstants;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -44,8 +43,7 @@ public class EventSample extends SampleBase {
 	interface EventSampleBinder extends UiBinder<SimplePanel, EventSample> {
 	}
 
-	private static EventSampleBinder binder = GWT
-			.create(EventSampleBinder.class);
+	private static EventSampleBinder binder = GWT.create(EventSampleBinder.class);
 
 	@UiField
 	HTML svgContainer;
@@ -60,25 +58,25 @@ public class EventSample extends SampleBase {
 			tabPanel.selectTab(0);
 
 			// Cast the document into a SVG document
-			DivElement div = svgContainer.getElement().cast();
-			OMSVGDocument doc = div.getOwnerDocument().cast();
+			Element div = svgContainer.getElement();
+			OMSVGDocument doc = OMSVGParser.currentDocument();
 
 			// Create the root svg element
-			OMSVGSVGElement svg = doc.createElementNS(SVGConstants.SVG_NAMESPACE_URI, SVGConstants.SVG_SVG_TAG).cast();
-			svg.setAttribute(SVGConstants.SVG_VIEW_BOX_ATTRIBUTE, "0 0 100 200");
-			svg.setAttribute(SVGConstants.SVG_WIDTH_ATTRIBUTE, "250x");
-			svg.setAttribute(SVGConstants.SVG_HEIGHT_ATTRIBUTE, "250px");
+			OMSVGSVGElement svg = doc.createSVGSVGElement();
+			svg.getViewBox().getBaseVal().setX(0);
+			svg.getViewBox().getBaseVal().setY(0);
+			svg.getViewBox().getBaseVal().setWidth(100);
+			svg.getViewBox().getBaseVal().setHeight(200);
+			svg.getWidth().getBaseVal().setValueAsString("250px");
+			svg.getHeight().getBaseVal().setValueAsString("250px");
 
 			// Create a circle
-			final OMSVGEllipseElement circle = doc.createElementNS(
-					SVGConstants.SVG_NAMESPACE_URI,	
-					SVGConstants.SVG_ELLIPSE_TAG).cast();
-			circle.setAttribute(SVGConstants.SVG_CX_ATTRIBUTE, "80");
-			circle.setAttribute(SVGConstants.SVG_CY_ATTRIBUTE, "80");
-			circle.setAttribute(SVGConstants.SVG_RX_ATTRIBUTE, "40");
-			circle.setAttribute(SVGConstants.SVG_RY_ATTRIBUTE, "40");
-			circle.setAttribute(SVGConstants.CSS_FILL_PROPERTY,	SVGConstants.CSS_RED_VALUE);
-			circle.setAttribute(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLACK_VALUE);
+			final OMSVGCircleElement circle = doc.createSVGCircleElement();
+			circle.getCx().getBaseVal().setValue(80);
+			circle.getCy().getBaseVal().setValue(80);
+			circle.getR().getBaseVal().setValue(40);
+			circle.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLACK_VALUE);
+			setCircleColor(circle, SVGConstants.CSS_RED_VALUE);
 			svg.appendChild(circle);
 	
 			// Set a mousedown event handler
@@ -92,15 +90,23 @@ public class EventSample extends SampleBase {
 
 				@Override
 				public void onMouseDown(MouseDownEvent event) {
-					circle.setAttribute(SVGConstants.CSS_FILL_PROPERTY,
-							colors[Random.nextInt(colors.length)]);
+					String color = getCircleColor(circle);
+					while (color.equals(getCircleColor(circle))) {
+						setCircleColor(circle, colors[Random.nextInt(colors.length)]);
+					}
 				}
 			});
 			
 			// Insert the SVG root element into the HTML UI
-			div.appendChild((Element) svg.cast());
+			div.appendChild(svg.getElement());
 		}
 		return panel;
+	}
+	private static final String getCircleColor(OMSVGCircleElement circle) {
+		return circle.getStyle().getSVGProperty(SVGConstants.CSS_FILL_PROPERTY);
+	}
+	private static final void setCircleColor(OMSVGCircleElement circle, String color) {
+		circle.getStyle().setSVGProperty(SVGConstants.CSS_FILL_PROPERTY, color);
 	}
 
 }
