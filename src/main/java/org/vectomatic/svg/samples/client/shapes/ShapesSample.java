@@ -126,7 +126,6 @@ public class ShapesSample extends SampleBase {
 			svg.appendChild(text);
 			
 			// Insert the SVG root element into the HTML UI
-			// Note that the elements must be imported in the UI since they come from another XML document
 			Element div = svgContainer.getElement();
 			div.appendChild(svg.getElement());
 		}
