@@ -23,7 +23,6 @@ import org.vectomatic.svg.samples.client.shapes.ShapesSample;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -36,7 +35,6 @@ import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.SplitPanelHelper;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -76,7 +74,6 @@ public class Main implements EntryPoint {
 				String width = (Window.getClientWidth() - 20) + "px";
 				String height = getHeight() + "px";
 				splitPanel.setSize(width, height);
-				updateSplitPanel();
 			}
 		};
 		Window.addResizeHandler(resizeHandler);
@@ -102,24 +99,4 @@ public class Main implements EntryPoint {
 	    tree.setSelectedItem(shapesSample);
 	    RootPanel.get("uiRoot").add(panel);
 	}
-	
-	private void updateSplitPanel() {
-		Style style = SplitPanelHelper.getStyle(splitPanel);
-		String rawWidth = style.getWidth();
-		GWT.log("Main.updateSplitPanel(" + rawWidth + ")", null);
-		if (rawWidth != null && rawWidth.length() > 0) {
-			// Process events with size in pixels only
-			int index = rawWidth.indexOf(Style.Unit.PX.name().toLowerCase());
-			if (index != -1) {
-				try {
-					int width = Integer.valueOf(rawWidth.substring(0, index));
-					int height = getHeight();
-					int size = Math.min(width, height);
-				} catch(NumberFormatException e) {
-					GWT.log("Incorrect width: " + rawWidth, e);
-				}
-			}
-		}
-	}
-
 }

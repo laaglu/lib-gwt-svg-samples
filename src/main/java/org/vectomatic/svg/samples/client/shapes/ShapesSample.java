@@ -63,30 +63,17 @@ public class ShapesSample extends SampleBase {
 			
 			// Create the root svg element
 			OMSVGSVGElement svg =  doc.createSVGSVGElement();
-			svg.getViewBox().getBaseVal().setX(0f);
-			svg.getViewBox().getBaseVal().setY(0f);
-			svg.getViewBox().getBaseVal().setWidth(100f);
-			svg.getViewBox().getBaseVal().setHeight(200f);
+			svg.setViewBox(0f, 0f, 100f, 200f);
 			svg.getWidth().getBaseVal().setValueAsString("200px");
 			svg.getHeight().getBaseVal().setValueAsString("400px");
 
 			// Create a rect
-			OMSVGRectElement rect = doc.createSVGRectElement();
-			rect.getX().getBaseVal().setValue(5f);
-			rect.getY().getBaseVal().setValue(35f);
-			rect.getWidth().getBaseVal().setValue(50f);
-			rect.getHeight().getBaseVal().setValue(20f);
-			rect.getRx().getBaseVal().setValue(4f);
-			rect.getRy().getBaseVal().setValue(4f);
+			OMSVGRectElement rect = doc.createSVGRectElement(5f, 35f, 50f, 20f, 4f, 4f);
 			rect.getStyle().setSVGProperty(SVGConstants.CSS_FILL_PROPERTY, SVGConstants.CSS_LIGHTGREEN_VALUE);
 			rect.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLACK_VALUE);
 			
 			// Create an ellipse
-			OMSVGEllipseElement ellipse = doc.createSVGEllipseElement();
-			ellipse.getCx().getBaseVal().setValue(60f);
-			ellipse.getCy().getBaseVal().setValue(80f);
-			ellipse.getRx().getBaseVal().setValue(30f);
-			ellipse.getRy().getBaseVal().setValue(15f);
+			OMSVGEllipseElement ellipse = doc.createSVGEllipseElement(60f, 80f, 30f, 15f);
 			ellipse.getStyle().setSVGProperty(SVGConstants.CSS_FILL_PROPERTY, SVGConstants.CSS_YELLOW_VALUE);
 			ellipse.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLACK_VALUE);
 			ellipse.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_DASHARRAY_PROPERTY, "5,2,2,2");
@@ -110,15 +97,8 @@ public class ShapesSample extends SampleBase {
 			path.getStyle().setSVGProperty(SVGConstants.CSS_FILL_PROPERTY, SVGConstants.CSS_RED_VALUE);
 			
 			// Create a text
-			OMSVGTextElement text = doc.createSVGTextElement();
-			OMSVGLength x = svg.createSVGLength();
-			x.setValue(10);
-			text.getX().getBaseVal().appendItem(x);
-			OMSVGLength y = svg.createSVGLength();
-			y.setValue(120);
-			text.getY().getBaseVal().appendItem(y);
+			OMSVGTextElement text = doc.createSVGTextElement(10, 120, OMSVGLength.SVG_LENGTHTYPE_PX, "Hello, World");
 			text.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLUE_VALUE);
-			text.appendChild(doc.createTextNode("Hello, World"));
 
 			svg.appendChild(rect);
 			svg.appendChild(ellipse);
