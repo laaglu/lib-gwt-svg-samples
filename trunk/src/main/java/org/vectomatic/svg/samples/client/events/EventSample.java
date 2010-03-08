@@ -63,18 +63,12 @@ public class EventSample extends SampleBase {
 
 			// Create the root svg element
 			OMSVGSVGElement svg = doc.createSVGSVGElement();
-			svg.getViewBox().getBaseVal().setX(0);
-			svg.getViewBox().getBaseVal().setY(0);
-			svg.getViewBox().getBaseVal().setWidth(100);
-			svg.getViewBox().getBaseVal().setHeight(200);
+			svg.setViewBox(0f, 0f, 100f, 200f);
 			svg.getWidth().getBaseVal().setValueAsString("250px");
 			svg.getHeight().getBaseVal().setValueAsString("250px");
 
 			// Create a circle
-			final OMSVGCircleElement circle = doc.createSVGCircleElement();
-			circle.getCx().getBaseVal().setValue(80);
-			circle.getCy().getBaseVal().setValue(80);
-			circle.getR().getBaseVal().setValue(40);
+			final OMSVGCircleElement circle = doc.createSVGCircleElement(80f, 80f, 40f);
 			circle.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_PROPERTY, SVGConstants.CSS_BLACK_VALUE);
 			setCircleColor(circle, SVGConstants.CSS_RED_VALUE);
 			svg.appendChild(circle);

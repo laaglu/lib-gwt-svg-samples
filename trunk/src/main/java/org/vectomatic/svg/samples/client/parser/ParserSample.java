@@ -76,7 +76,8 @@ public class ParserSample extends SampleBase {
 	public void documentListBoxChange(ChangeEvent event) {
 		// Request the contents of the file
 		String svgDocument = documentListBox.getValue(documentListBox.getSelectedIndex());
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, GWT.getModuleBaseURL() + svgDocument);
+		String resource = GWT.getModuleBaseURL() + svgDocument;
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, resource);
 		builder.setCallback(new RequestCallback() {
 			public void onError(Request request, Throwable exception) {
 				source.setHTML("Cannot find resource");
@@ -87,7 +88,6 @@ public class ParserSample extends SampleBase {
 				OMSVGSVGElement svg = OMSVGParser.parse(response.getText());
 				
 				// Insert the SVG root element into the HTML UI
-				// Note that the elements must be imported in the UI since they come from another XML document
 				Element div = svgContainer.getElement();
 				div.getStyle().setHeight(600, Style.Unit.PX);
 				if (div.hasChildNodes()) {
@@ -102,7 +102,7 @@ public class ParserSample extends SampleBase {
 		try {
 			builder.send();
 		} catch (RequestException e) {
-			GWT.log("Cannot fetch HTML source for " + svgDocument, e);
+			GWT.log("Cannot fetch resource " + resource, e);
 		}
 	}
 }
