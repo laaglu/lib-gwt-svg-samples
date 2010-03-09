@@ -52,7 +52,9 @@ public abstract class SampleBase {
 	protected void requestSourceContents(String partialPath) {
 
 		// Request the contents of the file
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, GWT.getModuleBaseURL() + partialPath);
+		// Add a bogus query to bypass the browser cache as advised by:
+		// https://developer.mozilla.org/En/Using_XMLHttpRequest#Bypassing_the_cache
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, GWT.getModuleBaseURL() + partialPath + "?ts=" + System.currentTimeMillis());
 		builder.setCallback(new RequestCallback() {
 			public void onError(Request request, Throwable exception) {
 				source.setHTML("Cannot find resource");
