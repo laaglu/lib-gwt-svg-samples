@@ -1,0 +1,10 @@
+.supported {
+	color:DarkGreen;
+}
+.unsupported {
+	color:Red;
+}
+.header {
+	font-weight:bold;
+	color:black;
+}
