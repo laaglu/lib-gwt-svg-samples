@@ -1,6 +1,6 @@
 /**********************************************
  * Copyright (C) 2009 Lukas Laag
- * This file is part of libgwtsvg-samples.
+ * This file is part of lib-gwt-svg-samples.
  * 
  * libgwtsvg-samples is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
