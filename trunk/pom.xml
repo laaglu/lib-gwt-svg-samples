@@ -52,7 +52,7 @@
 		</dependency>
 	</dependencies>
 	<properties>
-		<google.webtoolkit.home>/home/laaglu/gwt/trunk/build/staging/gwt-0.0.0</google.webtoolkit.home>
+		<google.webtoolkit.home>/home/laaglu/gwt/2.0.3</google.webtoolkit.home>
 	</properties>
 	
 	<build>
