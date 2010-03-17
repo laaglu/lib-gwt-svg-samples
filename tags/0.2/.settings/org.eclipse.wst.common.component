@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="libgwtsvg-samples">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/libgwtsvg/libgwtsvg">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="libgwtsvg-samples"/>
+        <property name="java-output-path"/>
+    </wb-module>
+</project-modules>
