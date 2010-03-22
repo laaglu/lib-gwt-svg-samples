@@ -21,6 +21,7 @@ import org.vectomatic.svg.samples.client.events.EventSample;
 import org.vectomatic.svg.samples.client.features.FeaturesSample;
 import org.vectomatic.svg.samples.client.parser.ParserSample;
 import org.vectomatic.svg.samples.client.shapes.ShapesSample;
+import org.vectomatic.svg.samples.client.widgets.WidgetsSample;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -90,6 +91,8 @@ public class Main implements EntryPoint {
 	    parserSample.setUserObject(new ParserSample());
 	    TreeItem featuresSample = tree.addItem("features");
 	    featuresSample.setUserObject(new FeaturesSample());
+	    TreeItem widgetsSample = tree.addItem("widgets");
+	    widgetsSample.setUserObject(new WidgetsSample());
 	    tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event) {
