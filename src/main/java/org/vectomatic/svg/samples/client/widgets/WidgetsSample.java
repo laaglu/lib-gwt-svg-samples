@@ -23,6 +23,8 @@
 
 package org.vectomatic.svg.samples.client.widgets;
 
+import org.vectomatic.dom.svg.OMSVGGElement;
+import org.vectomatic.dom.svg.OMSVGPathElement;
 import org.vectomatic.dom.svg.ui.SVGImage;
 import org.vectomatic.dom.svg.ui.SVGResource;
 import org.vectomatic.svg.samples.client.SampleBase;
@@ -41,11 +43,11 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class WidgetsSample extends SampleBase {
 	private static class Tooltip extends PopupPanel {
 		private HTML contents;
+		private Timer timer;
 			  
 		public Tooltip() {
 			super(true);
@@ -54,19 +56,20 @@ public class WidgetsSample extends SampleBase {
 			setStyleName(WidgetsSampleBundle.INSTANCE.getCss().tooltip());
 		}
 
-		public void show(Widget sender, int offsetX, int offsetY,
-				final String text, final int delay) {
+		public void show(int x, int y, final String text, final int delay) {
 			contents.setHTML(text);
-			int left = sender.getAbsoluteLeft() + offsetX;
-			int top = sender.getAbsoluteTop() + offsetY;
-			setPopupPosition(left, top);
+			setPopupPosition(x, y);
 			super.show();
-			Timer t = new Timer() {
+			if (timer != null) {
+				timer.cancel();
+			}
+			timer = new Timer() {
 				public void run() {
 					Tooltip.this.hide();
+					timer = null;
 				}
 			};
-			t.schedule(delay);
+			timer.schedule(delay);
 		}
 	}
 
@@ -93,6 +96,7 @@ public class WidgetsSample extends SampleBase {
 	}
 	private static WidgetsSampleBinder binder = GWT.create(WidgetsSampleBinder.class);
 	
+	// SVG defined in an external resource
 	@UiField
 	SVGImage hearts;
 	@UiField
@@ -101,6 +105,13 @@ public class WidgetsSample extends SampleBase {
 	SVGImage diamonds;
 	@UiField
 	SVGImage spades;
+	
+	// SVG defined inline with bindings to internal elements
+	@UiField
+	OMSVGGElement eyes;
+	@UiField
+	OMSVGPathElement mouth;
+
 	private Tooltip tooltip;
 
 	@Override
@@ -121,8 +132,8 @@ public class WidgetsSample extends SampleBase {
 		return panel;
 	}
 	
-	private void showTooltip(SVGImage sender, String text) {
-		tooltip.show(sender, 10, 35, text, 3000);
+	private void showTooltip(int x, int y, String text) {
+		tooltip.show(x + 20, y + 30, text, 3000);
 	}
 
 	@UiHandler("hearts")
@@ -132,7 +143,7 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("hearts")
 	public void onMouseOverHearts(MouseOverEvent event) {
-		showTooltip(hearts, "hearts");
+		showTooltip(hearts.getAbsoluteLeft(), hearts.getAbsoluteTop(), "hearts");
 	}
 
 	@UiHandler("clubs")
@@ -142,7 +153,7 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("clubs")
 	public void onMouseOverClubs(MouseOverEvent event) {
-		showTooltip(clubs, "clubs");
+		showTooltip(clubs.getAbsoluteLeft(), clubs.getAbsoluteTop(), "clubs");
 	}
 
 	@UiHandler("diamonds")
@@ -152,7 +163,7 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("diamonds")
 	public void onMouseOverDiamonds(MouseOverEvent event) {
-		showTooltip(diamonds, "diamonds");
+		showTooltip(diamonds.getAbsoluteLeft(), diamonds.getAbsoluteTop(), "diamonds");
 	}
 
 	@UiHandler("spades")
@@ -162,6 +173,26 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("spades")
 	public void onMouseOverSpades(MouseOverEvent event) {
-		showTooltip(spades, "spades");
+		showTooltip(spades.getAbsoluteLeft(), spades.getAbsoluteTop(), "spades");
+	}
+
+	@UiHandler("eyes")
+	public void onMouseOutEyes(MouseOutEvent event) {
+		tooltip.hide();
+	}
+
+	@UiHandler("eyes")
+	public void onMouseOverEyes(MouseOverEvent event) {
+		showTooltip(event.getClientX(), event.getClientY(), "eyes");
+	}
+
+	@UiHandler("mouth")
+	public void onMouseOutMouth(MouseOutEvent event) {
+		tooltip.hide();
+	}
+
+	@UiHandler("mouth")
+	public void onMouseOverMouth(MouseOverEvent event) {
+		showTooltip(event.getClientX(), event.getClientY(), "mouth");
 	}
 }
