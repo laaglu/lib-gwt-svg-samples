@@ -95,10 +95,8 @@ public class FeaturesSample extends SampleBase {
 		
 		// Initialize the UI with UiBinder
 		panel = binder.createAndBindUi(this);
-		requestSourceContents(HTML_SRC_DIR + "FeaturesSample" + ".html");
 		tabPanel.getTabBar().setTabText(0, "Features");
-		tabPanel.getTabBar().setTabText(1, "HTML");
-		tabPanel.selectTab(0);
+		loadSampleCode("FeaturesSample");
 		
 		// Test all the feature names
 		table.setText(0, 0, "Feature name");

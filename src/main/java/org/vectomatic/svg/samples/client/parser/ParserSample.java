@@ -57,10 +57,8 @@ public class ParserSample extends SampleBase {
 		if (panel == null) {
 			// Initialize the UI with UiBinder
 			panel = binder.createAndBindUi(this);
-			requestSourceContents(HTML_SRC_DIR + "ParserSample" + ".html");
 			tabPanel.getTabBar().setTabText(0, "Parser");
-			tabPanel.getTabBar().setTabText(1, "HTML");
-			tabPanel.selectTab(0);
+			loadSampleCode("ParserSample");
 
 			// Fill the list box with svg file names
 			documentListBox.addItem("tiger", "tiger.svg");

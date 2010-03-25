@@ -124,10 +124,8 @@ public class WidgetsSample extends SampleBase {
 
 			tooltip = new Tooltip();
 			panel = binder.createAndBindUi(this);
-			requestSourceContents(HTML_SRC_DIR + "WidgetsSample" + ".html");
 			tabPanel.getTabBar().setTabText(0, "Widgets");
-			tabPanel.getTabBar().setTabText(1, "HTML");
-			tabPanel.selectTab(0);
+			loadSampleCode("WidgetsSample");
 		}
 		return panel;
 	}

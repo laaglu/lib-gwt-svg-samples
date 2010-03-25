@@ -52,10 +52,8 @@ public class EventSample extends SampleBase {
 	public Panel getPanel() {
 		if (panel == null) {
 			panel = binder.createAndBindUi(this);
-			requestSourceContents(HTML_SRC_DIR + "EventSample" + ".html");
 			tabPanel.getTabBar().setTabText(0, "Events");
-			tabPanel.getTabBar().setTabText(1, "HTML");
-			tabPanel.selectTab(0);
+			loadSampleCode("EventSample");
 
 			// Cast the document into a SVG document
 			Element div = svgContainer.getElement();

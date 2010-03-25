@@ -37,19 +37,30 @@ import com.google.gwt.user.client.ui.TabPanel;
 public abstract class SampleBase {
 
 	public static final String HTML_SRC_DIR = "src/";
+	public static final String UIBINDER_SRC_DIR = "binder/";
 	@UiField
 	public HTML source;
+	@UiField
+	public HTML uiBinder;
 	@UiField
 	public TabPanel tabPanel;
 	@UiField
 	public SimplePanel panel;
 
 	public abstract Panel getPanel();
+	
+	protected void loadSampleCode(String sampleName) {
+		requestCodeContents(HTML_SRC_DIR + sampleName + ".html", source);
+		requestCodeContents(UIBINDER_SRC_DIR + sampleName + ".html", uiBinder);
+		tabPanel.getTabBar().setTabText(1, "HTML");
+		tabPanel.getTabBar().setTabText(2, "UiBinder");
+		tabPanel.selectTab(0);
+	}
 
 	/**
 	 * Load the sample HTML source code
 	 */
-	protected void requestSourceContents(String partialPath) {
+	protected void requestCodeContents(String partialPath, final HTML html) {
 
 		// Request the contents of the file
 		// Add a bogus query to bypass the browser cache as advised by:
@@ -57,11 +68,11 @@ public abstract class SampleBase {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, GWT.getModuleBaseURL() + partialPath + "?ts=" + System.currentTimeMillis());
 		builder.setCallback(new RequestCallback() {
 			public void onError(Request request, Throwable exception) {
-				source.setHTML("Cannot find resource");
+				html.setHTML("Cannot find resource");
 			}
 
 			public void onResponseReceived(Request request, Response response) {
-				source.setHTML(response.getText());
+				html.setHTML(response.getText());
 			}
 		});
 

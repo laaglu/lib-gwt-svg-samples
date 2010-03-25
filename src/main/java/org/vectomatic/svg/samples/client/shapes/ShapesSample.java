@@ -53,10 +53,8 @@ public class ShapesSample extends SampleBase {
 	public Panel getPanel() {
 		if (panel == null) {
 			panel = binder.createAndBindUi(this);
-			requestSourceContents(HTML_SRC_DIR + "ShapesSample" + ".html");
 			tabPanel.getTabBar().setTabText(0, "Shapes");
-			tabPanel.getTabBar().setTabText(1, "HTML");
-			tabPanel.selectTab(0);
+			loadSampleCode("ShapesSample");
 			
 			// Create a SVG document
 			OMSVGDocument doc = OMSVGParser.currentDocument();

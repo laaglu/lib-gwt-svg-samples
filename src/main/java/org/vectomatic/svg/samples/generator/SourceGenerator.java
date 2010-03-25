@@ -18,12 +18,13 @@
 package org.vectomatic.svg.samples.generator;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.StringWriter;
 
+import org.apache.tools.ant.filters.StringInputStream;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.ext.Generator;
@@ -32,11 +33,8 @@ import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.core.ext.typeinfo.NotFoundException;
-
-import de.java2html.converter.IJavaSourceConverter;
-import de.java2html.converter.JavaSource2HTMLConverter;
-import de.java2html.javasource.JavaSourceParser;
-import de.java2html.options.JavaSourceConversionOptions;
+import com.uwyn.jhighlight.renderer.Renderer;
+import com.uwyn.jhighlight.renderer.XhtmlRendererFactory;
 
 public class SourceGenerator extends Generator {
 	/**
@@ -79,35 +77,51 @@ public class SourceGenerator extends Generator {
 		// Generate the source and raw source files
 		for (JClassType type : types) {
 			generateSourceFile(type);
+			generateUiBinderFile(type);
 		}
 		return null;
 	}
 
 	private void generateSourceFile(JClassType type) throws UnableToCompleteException {
-		JavaSourceConversionOptions options = JavaSourceConversionOptions.getDefault();
-		IJavaSourceConverter converter = new JavaSource2HTMLConverter() {
-			public java.lang.String getDocumentHeader(JavaSourceConversionOptions options, java.lang.String title) {
-				return "";
-			};
-
-			public java.lang.String getDocumentFooter(JavaSourceConversionOptions options) {
-				return "";
-			}
-		};
-		StringWriter stringWriter = new StringWriter();
-		JavaSourceParser parser = new JavaSourceParser(options);
+		Renderer javaRenderer = XhtmlRendererFactory.getRenderer(XhtmlRendererFactory.JAVA);
 	    String filename = type.getQualifiedSourceName().replace('.', '/') + ".java";
-	    String fileContents = getResourceContents(filename);
-		de.java2html.javasource.JavaSource source = parser.parse(fileContents);
+		ByteArrayOutputStream byteArrayStream = null;
+		InputStream javaStream = null;
 		try {
-			converter.convert(source, options, stringWriter);
+			javaStream = new StringInputStream(getResourceContents(filename));
+			byteArrayStream = new ByteArrayOutputStream();
+			javaRenderer.highlight(null, javaStream, byteArrayStream, "UTF-8", true);
+			javaStream.close();
+			byteArrayStream.close();
+			
 		    // Save the source code to a file
 		    String dstPath = SampleBase.HTML_SRC_DIR + type.getSimpleSourceName() + ".html";
-		    createPublicResource(dstPath, stringWriter.toString());
+		    String contents = new String(byteArrayStream.toByteArray(), "UTF-8");
+		    createPublicResource(dstPath, contents);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
 
+	private void generateUiBinderFile(JClassType type) throws UnableToCompleteException {
+		Renderer javaRenderer = XhtmlRendererFactory.getRenderer(XhtmlRendererFactory.XML);
+	    String filename = type.getQualifiedSourceName().replace('.', '/') + ".ui.xml";
+		ByteArrayOutputStream byteArrayStream = null;
+		InputStream javaStream = null;
+		try {
+			javaStream = new StringInputStream(getResourceContents(filename));
+			byteArrayStream = new ByteArrayOutputStream();
+			javaRenderer.highlight(null, javaStream, byteArrayStream, "UTF-8", true);
+			javaStream.close();
+			byteArrayStream.close();
+			
+		    // Save the source code to a file
+		    String dstPath = SampleBase.UIBINDER_SRC_DIR + type.getSimpleSourceName() + ".html";
+		    String contents = new String(byteArrayStream.toByteArray(), "UTF-8");
+		    createPublicResource(dstPath, contents);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -129,6 +143,7 @@ public class SourceGenerator extends Generator {
 			logger.log(TreeLogger.ERROR, "Failed while writing", e);
 		}
 	}
+	
 
 	  /**
 	   * Get the full contents of a resource.

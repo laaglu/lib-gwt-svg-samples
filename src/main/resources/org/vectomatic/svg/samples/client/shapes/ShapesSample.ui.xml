@@ -10,6 +10,11 @@
 					<g:HTML ui:field="source" />
 				</g:VerticalPanel>
 			</g:Tab>
+			<g:Tab>
+				<g:VerticalPanel>
+					<g:HTML ui:field="uiBinder" />
+				</g:VerticalPanel>
+			</g:Tab>
 		</g:TabPanel>
 	</g:SimplePanel>
 </ui:UiBinder>
