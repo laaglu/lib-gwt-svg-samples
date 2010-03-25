@@ -2,11 +2,17 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'
 	xmlns:svgui='urn:import:org.vectomatic.dom.svg.ui'>
 	<ui:with field='resources' type='org.vectomatic.svg.samples.client.widgets.WidgetsSample.WidgetsSampleBundle' />
+	<ui:style>
+      .eye { fill:#0000ff;stroke:#000000;stroke-width:2.9000001; }
+      .mouth { fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:1px; }
+      .instructions { font-style:italic; }
+    </ui:style>
+	
 	<g:SimplePanel ui:field='panel'>
 		<g:TabPanel ui:field='tabPanel' width="100%">
 			<g:Tab>
 				<g:VerticalPanel>
-					<g:Label text="Move the cursor over the images to generate mouseEnter and mouseOut events. In the case of the smiley, notice you can bind event handlers to arbitrary SVG elements inside the SVGImage."/>
+					<g:Label styleName="{style.instructions}" text="Move the cursor over the images to generate mouseEnter and mouseOut events. In the case of the smiley, notice you can bind event handlers to arbitrary SVG elements inside the SVGImage."/>
 					<g:HorizontalPanel>
 					  <!-- SVG defined in an external resource -->
 					  <svgui:SVGImage ui:field="hearts" resource="{resources.hearts}"/>
@@ -20,10 +26,10 @@
 						<svg width="100" height="100" viewBox="80 190 140 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
 							<path d="m 208,146.86218 a 63,63.5 0 1 1 -126,0 63,63.5 0 1 1 126,0 z" style="fill:#ffff00;stroke:#000000;" transform="translate(3.9895924,108.83705)" />
 							<g ui:field="eyes" transform="translate(10.960155,103.59114)">
-								<path d="m 124,133.36218 c 0,4.97057 -4.02944,9 -9,9 -4.97056,0 -9,-4.02943 -9,-9 0,-4.97056 4.02944,-9 9,-9 4.97056,0 9,4.02944 9,9 z" style="fill:#0000ff;stroke:#000000;stroke-width:2.9000001;" />
-								<path d="m 124,133.36218 c 0,4.97057 -4.02944,9 -9,9 -4.97056,0 -9,-4.02943 -9,-9 0,-4.97056 4.02944,-9 9,-9 4.97056,0 9,4.02944 9,9 z" style="fill:#0000ff;stroke:#000000;stroke-width:2.9000001;" transform="translate(44,0)" />
+								<path d="m 124,133.36218 c 0,4.97057 -4.02944,9 -9,9 -4.97056,0 -9,-4.02943 -9,-9 0,-4.97056 4.02944,-9 9,-9 4.97056,0 9,4.02944 9,9 z" class="{style.eye}" />
+								<path d="m 124,133.36218 c 0,4.97057 -4.02944,9 -9,9 -4.97056,0 -9,-4.02943 -9,-9 0,-4.97056 4.02944,-9 9,-9 4.97056,0 9,4.02944 9,9 z" class="{style.eye}" transform="translate(44,0)" />
 							</g>
-							<path ui:field="mouth" d="m 118.88908,286.15612 5,10 10,5 30,0 10,-5 5,-10 -5,5 -10,5 -30,0 -10,-5 -5,-5 z" style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:1px;" />
+							<path ui:field="mouth" d="m 118.88908,286.15612 5,10 10,5 30,0 10,-5 5,-10 -5,5 -10,5 -30,0 -10,-5 -5,-5 z" class="{style.mouth}" />
 						</svg>
 					  </svgui:SVGImage>
 					</g:HorizontalPanel>
