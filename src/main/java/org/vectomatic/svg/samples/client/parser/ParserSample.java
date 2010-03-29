@@ -17,18 +17,16 @@
  **********************************************/
 package org.vectomatic.svg.samples.client.parser;
 
-import org.vectomatic.dom.svg.OMSVGSVGElement;
-import org.vectomatic.dom.svg.utils.OMSVGParser;
+import org.vectomatic.dom.svg.ui.ExternalSVGResource;
+import org.vectomatic.dom.svg.ui.SVGResource;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ResourceCallback;
+import com.google.gwt.resources.client.ResourceException;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -47,10 +45,42 @@ public class ParserSample extends SampleBase {
 	}
 	private static ParserSampleBinder binder = GWT.create(ParserSampleBinder.class);
 
+	public interface ParserSampleBundle extends ClientBundle {
+		public static ParserSampleBundle INSTANCE = GWT.create(ParserSampleBundle.class);
+		
+		@Source("tiger.svg")
+		ExternalSVGResource tiger();
+		@Source("lion.svg")
+		ExternalSVGResource lion();
+		@Source("butterfly.svg")
+		ExternalSVGResource butterfly();
+	}
+
 	@UiField
 	HTML svgContainer;
 	@UiField
 	ListBox documentListBox;
+	
+	ResourceCallback<SVGResource> callback = new ResourceCallback<SVGResource>() {
+
+		@Override
+		public void onError(ResourceException e) {
+			source.setHTML("Cannot find resource");
+		}
+
+		@Override
+		public void onSuccess(SVGResource resource) {
+			// Insert the SVG root element into the HTML UI
+			Element div = svgContainer.getElement();
+			div.getStyle().setHeight(600, Style.Unit.PX);
+			if (div.hasChildNodes()) {
+				div.replaceChild(resource.getSvg().getElement(), div.getFirstChild());
+			} else {
+				div.appendChild(resource.getSvg().getElement());					
+			}
+		}
+		
+	};
 	
 	@Override
 	public Panel getPanel() {
@@ -61,9 +91,9 @@ public class ParserSample extends SampleBase {
 			loadSampleCode("ParserSample");
 
 			// Fill the list box with svg file names
-			documentListBox.addItem("tiger", "tiger.svg");
-			documentListBox.addItem("lion", "lion.svg");
-			documentListBox.addItem("butterfly", "butterfly.svg");
+			documentListBox.addItem("tiger");
+			documentListBox.addItem("lion");
+			documentListBox.addItem("butterfly");
 			documentListBox.setSelectedIndex(0);
 			documentListBoxChange(null);
 		}
@@ -73,34 +103,20 @@ public class ParserSample extends SampleBase {
 	@UiHandler("documentListBox")
 	public void documentListBoxChange(ChangeEvent event) {
 		// Request the contents of the file
-		String svgDocument = documentListBox.getValue(documentListBox.getSelectedIndex());
-		String resource = GWT.getModuleBaseURL() + svgDocument;
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, resource);
-		builder.setCallback(new RequestCallback() {
-			public void onError(Request request, Throwable exception) {
-				source.setHTML("Cannot find resource");
-			}
-
-			public void onResponseReceived(Request request, Response response) {
-				// Parse the document
-				OMSVGSVGElement svg = OMSVGParser.parse(response.getText());
-				
-				// Insert the SVG root element into the HTML UI
-				Element div = svgContainer.getElement();
-				div.getStyle().setHeight(600, Style.Unit.PX);
-				if (div.hasChildNodes()) {
-					div.replaceChild(svg.getElement(), div.getFirstChild());
-				} else {
-					div.appendChild(svg.getElement());					
-				}
-			}
-		});
-
-		// Send the request
 		try {
-			builder.send();
-		} catch (RequestException e) {
-			GWT.log("Cannot fetch resource " + resource, e);
+			switch(documentListBox.getSelectedIndex()) {
+				case 0:
+					ParserSampleBundle.INSTANCE.tiger().getSvg(callback);
+					break;
+				case 1:
+					ParserSampleBundle.INSTANCE.lion().getSvg(callback);
+					break;
+				case 2:
+					ParserSampleBundle.INSTANCE.butterfly().getSvg(callback);
+					break;
+			}
+		} catch(ResourceException e) {
+			source.setHTML("Cannot find resource");
 		}
 	}
 }
