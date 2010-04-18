@@ -3,25 +3,140 @@
 	xmlns:svgui='urn:import:org.vectomatic.dom.svg.ui'>
 	<ui:with field='resources' type='org.vectomatic.svg.samples.client.widgets.WidgetsSample.WidgetsSampleBundle' />
 	<ui:style>
+	  /* CSS definitions for the smiley SVG image*/
       .eye { fill:#0000ff;stroke:#000000;stroke-width:2.9000001; }
       .mouth { fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:1px; }
       .instructions { font-style:italic; }
+      
+	  /* CSS definitions for the push button # 1*/
+	  @external .btn-text, .btn-shape;
+	  .btn1 {
+	    font-family: Arial, Helvetica, sans-serif;
+	    font-size: 40px;
+	    font-style: normal;
+	    font-weight: normal;
+	  }
+	  .btn1-up {
+	  }
+	  .btn1-up .btn-text {
+	    stroke: none;
+	    fill: lightgreen;
+	  }
+	  .btn1-up .btn-shape {
+	    stroke: lightgreen;
+	    fill: green;
+	    stroke-width: 3;
+	  }
+	  .btn1-up-disabled {
+	    fill-opacity: 0.5;
+	  }
+	  .btn1-up-disabled .btn-text {
+	    stroke: none;
+	    fill: lightgreen;
+	  }
+	  .btn1-up-disabled .btn-shape {
+	    stroke: lightgreen;
+	    fill: green;
+	    stroke-width: 3;
+	  }
+	  .btn1-down-hovering {
+	  }
+	  .btn1-down-hovering .btn-text {
+	    stroke: none;
+	    fill: green;
+	  }
+	  .btn1-down-hovering .btn-shape {
+	    stroke: green;
+	    fill: lightgreen;
+	    stroke-width: 3;
+	  }
+	  
+	  /* CSS definitions for the push button # 2*/
+	  .btn2 {
+	    font-family: Arial, Helvetica, sans-serif;
+	    font-size: 40px;
+	    font-style: normal;
+	    font-weight: normal;
+	  }
+	  .btn2-up {
+	  }
+	  .btn2-up .btn-text {
+	    stroke: none;
+	    fill: white;
+	  }
+	  .btn2-up .btn-shape {
+	    stroke: gold;
+	    fill: goldenrod;
+	    stroke-width: 3;
+	  }
+	  .btn2-down-hovering {
+	  }
+	  .btn2-down-hovering .btn-text {
+	    stroke: none;
+	    fill: black;
+	  }
+	  .btn2-down-hovering .btn-shape {
+	    stroke: goldenrod;
+	    fill: gold;
+	    stroke-width: 3;
+	  }
+	  
+
+	  /* CSS definitions for the led toggle buttons*/
+	  @external .gradient;
+	  .led-up {
+	  }
+	  .led-down {
+	  }
+	  .led-up .gradient {
+	    fill:url(#linearGradient1339);
+	  }
+	  .led-down .gradient {
+	    fill:url(#linearGradient1339a);
+	  }
+	  
+	  /* CSS definitions for the play/pause toggle button*/
+	  @external .play, .pause;
+	  .btn-play {
+	  }
+	  .btn-play .play {
+	    visibility:visible;
+	  }
+	  .btn-play .pause {
+	    visibility:hidden;
+	  }
+	  .btn-pause {
+	  }
+	  .btn-pause .play {
+	    visibility:hidden;
+	  }
+	  .btn-pause .pause {
+	    visibility:visible;
+	  }
+	  
+	  .text {
+	    font-family: Arial, Helvetica, sans-serif;
+	    font-size: 20px;
+	    font-style: normal;
+	    font-weight: bold;
+	  }
     </ui:style>
 	
 	<g:SimplePanel ui:field='panel'>
 		<g:TabPanel ui:field='tabPanel' width="100%">
 			<g:Tab>
-				<g:VerticalPanel>
+				<g:VerticalPanel spacing="10">
+					<g:HTML><b>SVGImage</b></g:HTML>
 					<g:Label styleName="{style.instructions}" text="Move the cursor over the images to generate mouseEnter and mouseOut events. In the case of the smiley, notice you can bind event handlers to arbitrary SVG elements inside the SVGImage."/>
 					<g:HorizontalPanel>
-					  <!-- SVG defined in an external resource -->
+					  <!-- SVGImage using SVG provided by an external resource -->
 					  <svgui:SVGImage ui:field="hearts" resource="{resources.hearts}"/>
 					  <svgui:SVGImage ui:field="clubs" resource="{resources.clubs}"/>
 					  <svgui:SVGImage ui:field="diamonds" resource="{resources.diamonds}"/>
 					  <svgui:SVGImage ui:field="spades" resource="{resources.spades}"/>
 					</g:HorizontalPanel>
 					<g:HorizontalPanel>
-					  <!-- SVG defined inline with bindings to internal elements -->
+					  <!-- SVGImage using SVG provided inline. Notice the bindings to internal elements -->
 					  <svgui:SVGImage>
 						<svg width="100" height="100" viewBox="80 190 140 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
 							<path d="m 208,146.86218 a 63,63.5 0 1 1 -126,0 63,63.5 0 1 1 126,0 z" style="fill:#ffff00;stroke:#000000;" transform="translate(3.9895924,108.83705)" />
@@ -33,6 +148,53 @@
 						</svg>
 					  </svgui:SVGImage>
 					</g:HorizontalPanel>
+					<g:HTML><hr/></g:HTML>
+					<g:HTML><b>SVGPushButton and SVGToggleButton</b></g:HTML>
+					<g:HorizontalPanel spacing="20">
+					  <!-- SVGPushButton using SVG provided inline -->
+					  <svgui:SVGPushButton ui:field="clickMeButton">
+					    <svgui:element>
+                          <svg viewBox="0 0 200 60" width="200" height="60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <rect class="btn-shape" x="3" y="3" width="194" height="54" rx="10" ry="10" />
+                            <text class="btn-text" x="16" y="43">Click me !</text>
+                          </svg>
+                        </svgui:element>
+					    <svgui:upFace><svgui:styleChange classNames="{style.btn1} {style.btn1-up}"/></svgui:upFace>
+					    <svgui:upDisabledFace><svgui:styleChange classNames="{style.btn1} {style.btn1-up-disabled}"/></svgui:upDisabledFace>
+					    <svgui:downHoveringFace><svgui:styleChange classNames="{style.btn1} {style.btn1-down-hovering}"/></svgui:downHoveringFace>
+					  </svgui:SVGPushButton>
+					  <svgui:SVGToggleButton resource="{resources.playButton}">
+					    <svgui:upFace><svgui:styleChange classNames="{style.btn-play}"/></svgui:upFace>
+					    <svgui:downFace><svgui:styleChange classNames="{style.btn-pause}"/></svgui:downFace>
+					  </svgui:SVGToggleButton>
+					  <svgui:SVGPushButton ui:field="holdMeDownButton" repeatDelay="300">
+					    <svgui:element>
+                          <svg viewBox="0 0 290 60" width="290" height="60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <rect class="btn-shape" x="3" y="3" width="284" height="54" rx="10" ry="10" />
+                            <text class="btn-text" x="16" y="43">Hold me down</text>
+                          </svg>
+                        </svgui:element>
+					    <svgui:upFace><svgui:styleChange classNames="{style.btn2} {style.btn2-up}"/></svgui:upFace>
+					    <svgui:downHoveringFace><svgui:styleChange classNames="{style.btn2} {style.btn2-down-hovering}"/></svgui:downHoveringFace>
+					  </svgui:SVGPushButton>
+					  <g:Label styleName="{style.text}" text="Event count:"/>
+					  <g:Label styleName="{style.text}" ui:field="clickCount" text="0"/>
+					</g:HorizontalPanel>
+					<g:HorizontalPanel>
+					  <!-- SVGToggleButton using SVG provided by an external resource -->
+					  <svgui:SVGToggleButton resource="{resources.led}">
+					    <svgui:upFace><svgui:styleChange classNames="{style.led-up}"/></svgui:upFace>
+					    <svgui:downFace><svgui:styleChange classNames="{style.led-down}"/></svgui:downFace>
+					  </svgui:SVGToggleButton>
+					  <svgui:SVGToggleButton resource="{resources.led}">
+					    <svgui:upFace><svgui:styleChange classNames="{style.led-up}"/></svgui:upFace>
+					    <svgui:downFace><svgui:styleChange classNames="{style.led-down}"/></svgui:downFace>
+					  </svgui:SVGToggleButton>
+					  <svgui:SVGToggleButton resource="{resources.led}" down="true">
+					    <svgui:upFace><svgui:styleChange classNames="{style.led-up}"/></svgui:upFace>
+					    <svgui:downFace><svgui:styleChange classNames="{style.led-down}"/></svgui:downFace>
+					  </svgui:SVGToggleButton>
+					</g:HorizontalPanel>				
 				</g:VerticalPanel>
 			</g:Tab>
 			<g:Tab>

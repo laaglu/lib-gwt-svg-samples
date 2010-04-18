@@ -26,11 +26,14 @@ package org.vectomatic.svg.samples.client.widgets;
 import org.vectomatic.dom.svg.OMSVGGElement;
 import org.vectomatic.dom.svg.OMSVGPathElement;
 import org.vectomatic.dom.svg.ui.SVGImage;
+import org.vectomatic.dom.svg.ui.SVGPushButton;
 import org.vectomatic.dom.svg.ui.SVGResource;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.resources.client.ClientBundle;
@@ -39,7 +42,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -84,6 +89,10 @@ public class WidgetsSample extends SampleBase {
 		SVGResource diamonds();
 		@Source("as_pique_jean_victor_bal_.svg")
 		SVGResource spades();
+		@Source("ledButton.svg")
+		SVGResource led();
+		@Source("play-pause.svg")
+		SVGResource playButton();
 		@Source("tooltip.css")
 		public TooltipCss getCss();
 	}
@@ -105,6 +114,12 @@ public class WidgetsSample extends SampleBase {
 	SVGImage diamonds;
 	@UiField
 	SVGImage spades;
+	@UiField
+	SVGPushButton clickMeButton;
+	@UiField
+	SVGPushButton holdMeDownButton;
+	@UiField
+	Label clickCount;
 	
 	// SVG defined inline with bindings to internal elements
 	@UiField
@@ -193,4 +208,16 @@ public class WidgetsSample extends SampleBase {
 	public void onMouseOverMouth(MouseOverEvent event) {
 		showTooltip(event.getClientX(), event.getClientY(), "mouth");
 	}
+	
+	@UiHandler("clickMeButton")
+	public void onClick(ClickEvent event) {
+		Window.alert("Ouch !");
+	}
+
+	@UiHandler("holdMeDownButton")
+	public void onMouseDown(MouseDownEvent event) {
+		int count = Integer.parseInt(clickCount.getText());
+		clickCount.setText(Integer.toString(count + 1));
+	}
+
 }

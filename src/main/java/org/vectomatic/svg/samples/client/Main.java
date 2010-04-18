@@ -21,6 +21,7 @@ import org.vectomatic.svg.samples.client.events.EventSample;
 import org.vectomatic.svg.samples.client.features.FeaturesSample;
 import org.vectomatic.svg.samples.client.parser.ParserSample;
 import org.vectomatic.svg.samples.client.shapes.ShapesSample;
+import org.vectomatic.svg.samples.client.smil.SmilSample;
 import org.vectomatic.svg.samples.client.widgets.WidgetsSample;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -29,9 +30,12 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -50,6 +54,12 @@ public class Main implements EntryPoint {
 	 * {@link org.vectomatic.svg.samples.generator.SourceGenerator}.
 	 */
 	private static final class GeneratorInfo {
+	}
+	
+	public interface MainBundle extends ClientBundle {
+		public static MainBundle INSTANCE = GWT.create(MainBundle.class);
+		@Source("orgball.gif")
+		public ImageResource treeItem();
 	}
 	
 	@UiField
@@ -83,16 +93,18 @@ public class Main implements EntryPoint {
 		splitPanel.setSplitPosition("20%");
 
 		// Populate the sample tree
-	    TreeItem shapesSample = tree.addItem("shapes");
+	    TreeItem shapesSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " shapes");
 	    shapesSample.setUserObject(new ShapesSample());
-	    TreeItem eventSample = tree.addItem("events");
+	    TreeItem eventSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " events");
 	    eventSample.setUserObject(new EventSample());
-	    TreeItem parserSample = tree.addItem("parser");
+	    TreeItem parserSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " parser");
 	    parserSample.setUserObject(new ParserSample());
-	    TreeItem featuresSample = tree.addItem("features");
+	    TreeItem featuresSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " features");
 	    featuresSample.setUserObject(new FeaturesSample());
-	    TreeItem widgetsSample = tree.addItem("widgets");
+	    TreeItem widgetsSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " widgets");
 	    widgetsSample.setUserObject(new WidgetsSample());
+	    TreeItem smilSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " SMIL animation");
+	    smilSample.setUserObject(new SmilSample());
 	    tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event) {
