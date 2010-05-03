@@ -34,6 +34,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.resources.client.ClientBundle;
@@ -145,8 +146,8 @@ public class WidgetsSample extends SampleBase {
 		return panel;
 	}
 	
-	private void showTooltip(int x, int y, String text) {
-		tooltip.show(x + 20, y + 30, text, 3000);
+	private void showTooltip(MouseEvent e, String text) {
+		tooltip.show(e.getClientX() + 20, e.getClientY() + 30, text, 3000);
 	}
 
 	@UiHandler("hearts")
@@ -156,7 +157,7 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("hearts")
 	public void onMouseOverHearts(MouseOverEvent event) {
-		showTooltip(hearts.getAbsoluteLeft(), hearts.getAbsoluteTop(), "hearts");
+		showTooltip(event, "hearts");
 	}
 
 	@UiHandler("clubs")
@@ -166,7 +167,7 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("clubs")
 	public void onMouseOverClubs(MouseOverEvent event) {
-		showTooltip(clubs.getAbsoluteLeft(), clubs.getAbsoluteTop(), "clubs");
+		showTooltip(event, "clubs");
 	}
 
 	@UiHandler("diamonds")
@@ -176,7 +177,7 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("diamonds")
 	public void onMouseOverDiamonds(MouseOverEvent event) {
-		showTooltip(diamonds.getAbsoluteLeft(), diamonds.getAbsoluteTop(), "diamonds");
+		showTooltip(event, "diamonds");
 	}
 
 	@UiHandler("spades")
@@ -186,7 +187,7 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("spades")
 	public void onMouseOverSpades(MouseOverEvent event) {
-		showTooltip(spades.getAbsoluteLeft(), spades.getAbsoluteTop(), "spades");
+		showTooltip(event, "spades");
 	}
 
 	@UiHandler("eyes")
@@ -196,7 +197,7 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("eyes")
 	public void onMouseOverEyes(MouseOverEvent event) {
-		showTooltip(event.getClientX(), event.getClientY(), "eyes");
+		showTooltip(event, "eyes");
 	}
 
 	@UiHandler("mouth")
@@ -206,7 +207,7 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("mouth")
 	public void onMouseOverMouth(MouseOverEvent event) {
-		showTooltip(event.getClientX(), event.getClientY(), "mouth");
+		showTooltip(event, "mouth");
 	}
 	
 	@UiHandler("clickMeButton")

@@ -5,7 +5,7 @@
 			<g:Tab>
 				<g:VerticalPanel>
 					<g:HTML ui:field="svgContainer"></g:HTML>
-					<g:Label>Click the circle to change its color</g:Label>
+					<g:Label>Click the circle to change its color. Drag the square around</g:Label>
 				</g:VerticalPanel>
 			</g:Tab>
 			<g:Tab>
