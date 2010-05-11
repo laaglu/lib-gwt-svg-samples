@@ -129,6 +129,7 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 		dragging = false;
 		DOMHelper.releaseCaptureElement();
 		event.stopPropagation();
+		event.preventDefault();
 	}
 
 	@Override
@@ -139,6 +140,7 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 			square.getY().getBaseVal().setValue(y0 + d.getY());
 		}
 		event.stopPropagation();
+		event.preventDefault();
 	}
 	
 	/**
@@ -165,6 +167,7 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 		y0 = square.getY().getBaseVal().getValue();
 		DOMHelper.setCaptureElement(square, null);
 		event.stopPropagation();
+		event.preventDefault();
 	}
 
 
