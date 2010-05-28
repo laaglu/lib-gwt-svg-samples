@@ -127,7 +127,7 @@
 			<g:Tab>
 				<g:VerticalPanel spacing="10">
 					<g:HTML><b>SVGImage</b></g:HTML>
-					<g:Label styleName="{style.instructions}" text="Move the cursor over the images to generate mouseEnter and mouseOut events. In the case of the smiley, notice you can bind event handlers to arbitrary SVG elements inside the SVGImage."/>
+					<g:Label styleName="{style.instructions}" text="Move the cursor over the images to generate mouseover and mouseout events. In the case of the smiley, notice you can bind event handlers to arbitrary SVG elements inside the SVGImage."/>
 					<g:HorizontalPanel>
 					  <!-- SVGImage using SVG provided by an external resource -->
 					  <svgui:SVGImage ui:field="hearts" resource="{resources.hearts}"/>
