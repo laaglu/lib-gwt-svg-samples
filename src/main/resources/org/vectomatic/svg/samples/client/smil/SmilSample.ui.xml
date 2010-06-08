@@ -7,7 +7,7 @@
 				<g:VerticalPanel ui:field="vpanel" spacing="10">
 					<g:HTML><i>If you do not see anything move, then your browser probably does not yet support SVG SMIL animations</i></g:HTML>
 					<svgui:SVGImage ui:field="image">
-						<svg xmlns="http://www.w3.org/2000/svg" width="200px" height="100px">
+						<svg ui:field="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
 						  <rect x="0" y="0" width="300" height="100" stroke="black" stroke-width="1" />
 						  <circle ui:field="circle" cx="0" cy="50" r="15" fill="blue" stroke="black" stroke-width="1"><animate attributeName="cx" from="0" to="300" begin="0s" dur="3s" repeatCount="indefinite" /></circle>
 						</svg>

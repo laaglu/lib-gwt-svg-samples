@@ -29,6 +29,7 @@ import org.vectomatic.dom.svg.utils.SVGConstants;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
@@ -76,8 +77,6 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 			// Create the root svg element
 			svg = doc.createSVGSVGElement();
 			svg.setViewBox(0f, 0f, 400f, 200f);
-			svg.getWidth().getBaseVal().setValueAsString("100%");
-			svg.getHeight().getBaseVal().setValueAsString("100%");
 
 			// Create a circle
 			final OMSVGCircleElement circle = doc.createSVGCircleElement(80f, 80f, 40f);
@@ -170,5 +169,12 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 		event.preventDefault();
 	}
 
-
+	@Override
+	protected void resize(int width, int height) {
+		GWT.log(width + " " + height);
+		if (svg != null) {
+			svg.getStyle().setWidth(width, Unit.PX);
+			svg.getStyle().setHeight(height, Unit.PX);
+		}
+	}
 }

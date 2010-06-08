@@ -26,6 +26,10 @@ import org.vectomatic.svg.samples.client.widgets.WidgetsSample;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -41,6 +45,7 @@ import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.SplitPanelHelper;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -63,15 +68,35 @@ public class Main implements EntryPoint {
 	}
 	
 	@UiField
-	HorizontalSplitPanel splitPanel;
+	static HorizontalSplitPanel splitPanel;
 	@UiField
 	Tree tree;
 	@UiField
 	SimplePanel sampleContainer;
+	static SampleBase currentSample;
 
-	public int getHeight() {
-		return (Window.getClientHeight() - 150);
-	}
+	public static ResizeHandler resizeHandler = new ResizeHandler() {
+		@Override
+		public void onResize(ResizeEvent event) {
+			int w = Window.getClientWidth();
+			int h = Window.getClientHeight() - 120;
+			splitPanel.setSize(w + Unit.PX.toString(), h + Unit.PX.toString());
+			
+			Style style = SplitPanelHelper.getStyle(splitPanel);
+			String leftPaneWidth = style.getWidth();
+			if (leftPaneWidth != null && leftPaneWidth.length() > 0) {
+				// Process events with size in pixels only
+				int index = leftPaneWidth.indexOf(Style.Unit.PX.name().toLowerCase());
+				if (index != -1) {
+					try {
+						currentSample.resize(w - Integer.valueOf(leftPaneWidth.substring(0, index)), h);
+					} catch(NumberFormatException e) {
+						GWT.log("Incorrect width: " + leftPaneWidth, e);
+					}
+				}
+			}
+		}
+	};
 
 	@Override
 	public void onModuleLoad() {
@@ -79,19 +104,6 @@ public class Main implements EntryPoint {
 	    GWT.create(GeneratorInfo.class);
 	    DecoratorPanel panel = binder.createAndBindUi(this);
 	    
-		// Handle resizing issues.
-		ResizeHandler resizeHandler = new ResizeHandler() {
-			@Override
-			public void onResize(ResizeEvent event) {
-				String width = (Window.getClientWidth() - 20) + "px";
-				String height = getHeight() + "px";
-				splitPanel.setSize(width, height);
-			}
-		};
-		Window.addResizeHandler(resizeHandler);
-		resizeHandler.onResize(null);
-		splitPanel.setSplitPosition("20%");
-
 		// Populate the sample tree
 	    TreeItem shapesSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " shapes");
 	    shapesSample.setUserObject(new ShapesSample());
@@ -108,13 +120,28 @@ public class Main implements EntryPoint {
 	    tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event) {
-				SampleBase sample = (SampleBase) event.getSelectedItem().getUserObject();
-				Panel samplePanel = sample.getPanel();
+				currentSample = (SampleBase) event.getSelectedItem().getUserObject();
+				Panel samplePanel = currentSample.getPanel();
 				sampleContainer.setWidget(samplePanel);
+				resizeHandler.onResize(null);
 			}
 	    	
 	    });
 	    tree.setSelectedItem(shapesSample);
+
+		// Hack the HorizontalSplitPanel to generate an event when
+		// the splitter element is moved
+		splitPanel.setSplitPosition("20%");
+		SplitPanelHelper.addHandler(splitPanel, new MouseMoveHandler() {
+			@Override
+			public void onMouseMove(MouseMoveEvent event) {
+				if (splitPanel.isResizing()) {
+					resizeHandler.onResize(null);
+				}
+			}
+		}, MouseMoveEvent.getType());
+	    Window.addResizeHandler(resizeHandler);
+	    resizeHandler.onResize(null);
 	    RootPanel.get("uiRoot").add(panel);
 	}
 }

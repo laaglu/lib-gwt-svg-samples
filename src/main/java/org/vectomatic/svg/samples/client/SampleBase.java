@@ -83,4 +83,10 @@ public abstract class SampleBase {
 			GWT.log("Cannot fetch HTML source for " + partialPath, e);
 		}
 	}
+	/**
+	 * Resizes the sample
+	 */
+	protected void resize(int width, int height) {
+		GWT.log("resize: " + width + " " + height);
+	}
 }

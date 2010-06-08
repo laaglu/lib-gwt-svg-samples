@@ -220,5 +220,4 @@ public class WidgetsSample extends SampleBase {
 		int count = Integer.parseInt(clickCount.getText());
 		clickCount.setText(Integer.toString(count + 1));
 	}
-
 }

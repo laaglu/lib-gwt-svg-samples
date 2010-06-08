@@ -2,11 +2,13 @@ package org.vectomatic.svg.samples.client.smil;
 
 import org.vectomatic.dom.svg.OMSVGAnimateElement;
 import org.vectomatic.dom.svg.OMSVGCircleElement;
+import org.vectomatic.dom.svg.OMSVGSVGElement;
 import org.vectomatic.dom.svg.events.RepeatEvent;
 import org.vectomatic.dom.svg.events.RepeatHandler;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
@@ -22,6 +24,8 @@ public class SmilSample extends SampleBase implements RepeatHandler {
 	
 	@UiField
 	VerticalPanel vpanel;
+	@UiField
+	OMSVGSVGElement svg;
 	@UiField
 	OMSVGCircleElement circle;
 	@UiField
@@ -48,6 +52,15 @@ public class SmilSample extends SampleBase implements RepeatHandler {
 	public void onRepeat(RepeatEvent e) {
 		int count = Integer.parseInt(loopCount.getText());
 		loopCount.setText(Integer.toString(count + 1));
+	}
+
+	@Override
+	protected void resize(int width, int height) {
+		GWT.log(width + " " + height);
+		if (svg != null) {
+			svg.getStyle().setWidth(width, Unit.PX);
+			svg.getStyle().setHeight(height, Unit.PX);
+		}
 	}
 
 }

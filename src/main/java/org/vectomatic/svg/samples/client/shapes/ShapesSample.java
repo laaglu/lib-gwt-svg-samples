@@ -30,6 +30,7 @@ import org.vectomatic.dom.svg.utils.SVGConstants;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Element;
@@ -48,6 +49,7 @@ public class ShapesSample extends SampleBase {
 
 	@UiField
 	HTML svgContainer;
+	OMSVGSVGElement svg;
 
 	@Override
 	public Panel getPanel() {
@@ -60,10 +62,8 @@ public class ShapesSample extends SampleBase {
 			OMSVGDocument doc = OMSVGParser.currentDocument();
 			
 			// Create the root svg element
-			OMSVGSVGElement svg =  doc.createSVGSVGElement();
-			svg.setViewBox(0f, 0f, 100f, 200f);
-			svg.getWidth().getBaseVal().setValueAsString("200px");
-			svg.getHeight().getBaseVal().setValueAsString("400px");
+			svg =  doc.createSVGSVGElement();
+			svg.setViewBox(0f, 0f, 300f, 200f);
 
 			// Create a rect
 			OMSVGRectElement rect = doc.createSVGRectElement(5f, 35f, 50f, 20f, 4f, 4f);
@@ -108,6 +108,14 @@ public class ShapesSample extends SampleBase {
 			div.appendChild(svg.getElement());
 		}
 		return panel;
+	}
+	@Override
+	protected void resize(int width, int height) {
+		GWT.log(width + " " + height);
+		if (svg != null) {
+			svg.getStyle().setWidth(width, Unit.PX);
+			svg.getStyle().setHeight(height, Unit.PX);
+		}
 	}
 
 }

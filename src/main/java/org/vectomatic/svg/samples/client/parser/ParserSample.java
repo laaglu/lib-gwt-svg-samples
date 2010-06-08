@@ -17,12 +17,14 @@
  **********************************************/
 package org.vectomatic.svg.samples.client.parser;
 
+import org.vectomatic.dom.svg.OMSVGSVGElement;
 import org.vectomatic.dom.svg.ui.ExternalSVGResource;
 import org.vectomatic.dom.svg.ui.SVGResource;
+import org.vectomatic.svg.samples.client.Main;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ResourceCallback;
@@ -60,7 +62,8 @@ public class ParserSample extends SampleBase {
 	HTML svgContainer;
 	@UiField
 	ListBox documentListBox;
-	
+	OMSVGSVGElement svg;
+
 	ResourceCallback<SVGResource> callback = new ResourceCallback<SVGResource>() {
 
 		@Override
@@ -72,12 +75,13 @@ public class ParserSample extends SampleBase {
 		public void onSuccess(SVGResource resource) {
 			// Insert the SVG root element into the HTML UI
 			Element div = svgContainer.getElement();
-			div.getStyle().setHeight(600, Style.Unit.PX);
+			svg = resource.getSvg();
 			if (div.hasChildNodes()) {
-				div.replaceChild(resource.getSvg().getElement(), div.getFirstChild());
+				div.replaceChild(svg.getElement(), div.getFirstChild());
 			} else {
-				div.appendChild(resource.getSvg().getElement());					
+				div.appendChild(svg.getElement());					
 			}
+			Main.resizeHandler.onResize(null);
 		}
 		
 	};
@@ -117,6 +121,15 @@ public class ParserSample extends SampleBase {
 			}
 		} catch(ResourceException e) {
 			source.setHTML("Cannot find resource");
+		}
+	}
+
+	@Override
+	protected void resize(int width, int height) {
+		GWT.log(width + " " + height);
+		if (svg != null) {
+			svg.getStyle().setWidth(width, Unit.PX);
+			svg.getStyle().setHeight(height, Unit.PX);
 		}
 	}
 }
