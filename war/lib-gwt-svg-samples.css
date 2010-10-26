@@ -65,4 +65,8 @@ color: rgb(147,147,147); background-color: rgb(247,247,247); font-style: italic;
 .java_separator {
 color: rgb(0,33,255);
 }
-
+.noscript {
+	color: red; 
+	border: 1px solid red; 
+	padding: 4px;
+}
