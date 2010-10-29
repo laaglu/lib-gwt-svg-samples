@@ -124,7 +124,7 @@
 	
 	<g:SimplePanel ui:field='panel'>
 		<g:TabPanel ui:field='tabPanel' width="100%">
-			<g:Tab>
+			<g:Tab text="">
 				<g:VerticalPanel spacing="10">
 					<g:HTML><b>SVGImage</b></g:HTML>
 					<g:Label styleName="{style.instructions}" text="Move the cursor over the images to generate mouseover and mouseout events. In the case of the smiley, notice you can bind event handlers to arbitrary SVG elements inside the SVGImage."/>
@@ -197,12 +197,12 @@
 					</g:HorizontalPanel>				
 				</g:VerticalPanel>
 			</g:Tab>
-			<g:Tab>
+			<g:Tab text="">
 				<g:VerticalPanel>
 					<g:HTML ui:field="source" />
 				</g:VerticalPanel>
 			</g:Tab>
-			<g:Tab>
+			<g:Tab text="">
 				<g:VerticalPanel>
 					<g:HTML ui:field="uiBinder" />
 				</g:VerticalPanel>

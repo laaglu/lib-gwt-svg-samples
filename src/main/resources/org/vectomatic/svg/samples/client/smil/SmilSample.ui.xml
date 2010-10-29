@@ -3,7 +3,7 @@
 	xmlns:svgui='urn:import:org.vectomatic.dom.svg.ui'>
 	<g:SimplePanel ui:field='panel'>
 		<g:TabPanel ui:field='tabPanel' width="100%">
-			<g:Tab>
+			<g:Tab text="">
 				<g:VerticalPanel ui:field="vpanel" spacing="10">
 					<g:HTML><i>If you do not see anything move, then your browser probably does not yet support SVG SMIL animations</i></g:HTML>
 					<svgui:SVGImage ui:field="image">
@@ -18,12 +18,12 @@
 					</g:HorizontalPanel>
 				</g:VerticalPanel>	
 			</g:Tab>
-			<g:Tab>
+			<g:Tab text="">
 				<g:VerticalPanel>
 					<g:HTML ui:field="source" />
 				</g:VerticalPanel>
 			</g:Tab>
-			<g:Tab>
+			<g:Tab text="">
 				<g:VerticalPanel>
 					<g:HTML ui:field="uiBinder" />
 				</g:VerticalPanel>
