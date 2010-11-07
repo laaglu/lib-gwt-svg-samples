@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+.tab {
+	user-select: none;
+}
+.sample {
+	top: 10px;
+	left: 10px;
+	right: 10px;
+	bottom: 10px;
+	position: absolute;
+	overflow: auto;
+}

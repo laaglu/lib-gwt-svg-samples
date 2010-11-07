@@ -28,6 +28,8 @@ import org.vectomatic.dom.svg.OMSVGPathElement;
 import org.vectomatic.dom.svg.ui.SVGImage;
 import org.vectomatic.dom.svg.ui.SVGPushButton;
 import org.vectomatic.dom.svg.ui.SVGResource;
+import org.vectomatic.svg.samples.client.Main;
+import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
@@ -37,6 +39,7 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -46,9 +49,8 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 public class WidgetsSample extends SampleBase {
 	private static class Tooltip extends PopupPanel {
@@ -102,11 +104,13 @@ public class WidgetsSample extends SampleBase {
 		public String tooltip();
 	}
 	
-	interface WidgetsSampleBinder extends UiBinder<SimplePanel, WidgetsSample> {
+	interface WidgetsSampleBinder extends UiBinder<TabLayoutPanel, WidgetsSample> {
 	}
 	private static WidgetsSampleBinder binder = GWT.create(WidgetsSampleBinder.class);
 	
 	// SVG defined in an external resource
+	@UiField(provided=true)
+	public static MainBundle mainBundle = Main.mainBundle;
 	@UiField
 	SVGImage hearts;
 	@UiField
@@ -131,22 +135,22 @@ public class WidgetsSample extends SampleBase {
 	private Tooltip tooltip;
 
 	@Override
-	public Panel getPanel() {
-		if (panel == null) {
+	public TabLayoutPanel getPanel() {
+		if (tabPanel == null) {
 			TooltipCss css = WidgetsSampleBundle.INSTANCE.getCss();
 			
 			// Inject CSS in the document headers
 			StyleInjector.inject(css.getText());
 
 			tooltip = new Tooltip();
-			panel = binder.createAndBindUi(this);
-			tabPanel.getTabBar().setTabText(0, "Widgets");
-			loadSampleCode("WidgetsSample");
+			tabPanel = binder.createAndBindUi(this);
+			tabPanel.setTabText(0, "Widgets");
+			createCodeTabs("WidgetsSample");
 		}
-		return panel;
+		return tabPanel;
 	}
 	
-	private void showTooltip(MouseEvent e, String text) {
+	private void showTooltip(MouseEvent<? extends EventHandler> e, String text) {
 		tooltip.show(e.getClientX() + 20, e.getClientY() + 30, text, 3000);
 	}
 

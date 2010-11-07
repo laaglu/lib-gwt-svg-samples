@@ -1,3 +1,7 @@
+/***************************************
+ CSS classes for colorized Uibinder code
+****************************************/
+
 .xml_plain {
 color: rgb(0,0,0);
 }
@@ -34,6 +38,10 @@ font-family: sans-serif; font-size: 16pt; font-weight: bold; color: rgb(0,0,0); 
 .xml_processing_instruction {
 color: rgb(0,0,0); font-weight: bold; font-style: italic;
 }
+
+/***********************************
+ CSS classes for colorized java code
+************************************/
 
 .java_type {
 color: rgb(0,44,221);

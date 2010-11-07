@@ -26,6 +26,8 @@ import org.vectomatic.dom.svg.OMSVGSVGElement;
 import org.vectomatic.dom.svg.utils.DOMHelper;
 import org.vectomatic.dom.svg.utils.OMSVGParser;
 import org.vectomatic.dom.svg.utils.SVGConstants;
+import org.vectomatic.svg.samples.client.Main;
+import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
@@ -42,19 +44,20 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 /**
  * Class to demonstrate the SVG event handling
  * @author laaglu
  */
 public class EventSample extends SampleBase implements MouseUpHandler, MouseMoveHandler, MouseDownHandler {
-	interface EventSampleBinder extends UiBinder<SimplePanel, EventSample> {
+	interface EventSampleBinder extends UiBinder<TabLayoutPanel, EventSample> {
 	}
 
 	private static EventSampleBinder binder = GWT.create(EventSampleBinder.class);
 
+	@UiField(provided=true)
+	public static MainBundle mainBundle = Main.mainBundle;
 	@UiField
 	HTML svgContainer;
 	private boolean dragging;
@@ -64,11 +67,11 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 	private OMSVGRectElement square;
 
 	@Override
-	public Panel getPanel() {
-		if (panel == null) {
-			panel = binder.createAndBindUi(this);
-			tabPanel.getTabBar().setTabText(0, "Events");
-			loadSampleCode("EventSample");
+	public TabLayoutPanel getPanel() {
+		if (tabPanel == null) {
+			tabPanel = binder.createAndBindUi(this);
+			tabPanel.setTabText(0, "Events");
+			createCodeTabs("EventSample");
 
 			// Cast the document into a SVG document
 			Element div = svgContainer.getElement();
@@ -114,7 +117,7 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 			// Insert the SVG root element into the HTML UI
 			div.appendChild(svg.getElement());
 		}
-		return panel;
+		return tabPanel;
 	}
 	private static final String getCircleColor(OMSVGCircleElement circle) {
 		return circle.getStyle().getSVGProperty(SVGConstants.CSS_FILL_PROPERTY);

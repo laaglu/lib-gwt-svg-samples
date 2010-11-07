@@ -1,20 +1,16 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-	<g:SimplePanel ui:field='panel'>
-		<g:TabPanel ui:field='tabPanel' width="100%">
-			<g:Tab text="">
-				<g:HTML ui:field="svgContainer"></g:HTML>		
-			</g:Tab>
-			<g:Tab text="">
-				<g:VerticalPanel>
-					<g:HTML ui:field="source" />
-				</g:VerticalPanel>
-			</g:Tab>
-			<g:Tab text="">
-				<g:VerticalPanel>
-					<g:HTML ui:field="uiBinder" />
-				</g:VerticalPanel>
-			</g:Tab>
-		</g:TabPanel>
-	</g:SimplePanel>
+	<ui:with field='mainBundle' type='org.vectomatic.svg.samples.client.Main.MainBundle' />
+	<g:TabLayoutPanel ui:field='tabPanel' barUnit='EM' barHeight='2'>
+		<g:tab>
+			<g:customHeader><g:Label styleName="{mainBundle.css.tab}">Shapes</g:Label></g:customHeader>
+			<g:FlowPanel>
+				<g:SimplePanel>
+					<g:FlowPanel styleName="{mainBundle.css.sample}">
+						<g:HTML ui:field="svgContainer"></g:HTML>		
+					</g:FlowPanel>
+				</g:SimplePanel>
+			</g:FlowPanel>
+		</g:tab>
+	</g:TabLayoutPanel>
 </ui:UiBinder>

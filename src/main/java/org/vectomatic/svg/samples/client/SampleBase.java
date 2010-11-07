@@ -24,37 +24,83 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 /**
- * Base class for libgwtsvg samples
- * 
+ * Base class for lib-gwt-svg samples. All samples are
+ * stored in a tab panel with three tabs.
+ * <ol>
+ * <li>The first tab contains the result of the sample code execution</li>
+ * <li>The second tab contains the source code for the sample</li>
+ * <li>The third tab contains the UiBinder code for the sample</li>
+ * <ol>
  * @author laaglu
  */
 public abstract class SampleBase {
-
+	/**
+	 * Directory where HTML-ified source code is generated
+	 */
 	public static final String HTML_SRC_DIR = "src/";
+	/**
+	 * Directory where HTML-ified UiBinder code is generated
+	 */
 	public static final String UIBINDER_SRC_DIR = "binder/";
+	/**
+	 * The HTML-ified source code
+	 */
+	public HTML sourceHtml;
+	/**
+	 * The HTML-ified UiBinder code
+	 */
+	public HTML uiBinderHtml;
+	/**
+	 * The tab panel containing this sample
+	 */
 	@UiField
-	public HTML source;
-	@UiField
-	public HTML uiBinder;
-	@UiField
-	public TabPanel tabPanel;
-	@UiField
-	public SimplePanel panel;
+	public TabLayoutPanel tabPanel;
 
-	public abstract Panel getPanel();
+	/**
+	 * Instantiates the tab panel which contains the sample
+	 * @return
+	 */
+	public abstract TabLayoutPanel getPanel();
 	
-	protected void loadSampleCode(String sampleName) {
-		requestCodeContents(HTML_SRC_DIR + sampleName + ".html", source);
-		requestCodeContents(UIBINDER_SRC_DIR + sampleName + ".html", uiBinder);
-		tabPanel.getTabBar().setTabText(1, "HTML");
-		tabPanel.getTabBar().setTabText(2, "UiBinder");
+	/**
+	 * Dynamically create the source code tab and UiBinder code tab
+	 * @param sampleName The name of the sample
+	 */
+	protected void createCodeTabs(String sampleName) {
+		sourceHtml = createCodeTab("HTML");
+		requestCodeContents(HTML_SRC_DIR + sampleName + ".html", sourceHtml);
+
+		uiBinderHtml = createCodeTab("UIBinder");
+		requestCodeContents(UIBINDER_SRC_DIR + sampleName + ".html", uiBinderHtml);
+
 		tabPanel.selectTab(0);
+	}
+	
+	private HTML createCodeTab(String tabName) {
+		// Create the tab container structure
+		FlowPanel tabContainer = new FlowPanel();
+		SimplePanel simplePanel = new SimplePanel();
+		FlowPanel container = new FlowPanel();
+		container.setStyleName(Main.mainBundle.css().sample());
+		HTML html = new HTML();
+		tabContainer.add(simplePanel);
+		simplePanel.setWidget(container);
+		container.add(html);
+		
+		// Create the tab item
+		Label label = new Label(tabName);
+		label.setStyleName(Main.mainBundle.css().tab());
+		
+		// Add the tab
+		tabPanel.add(tabContainer, label);
+		return html;
 	}
 
 	/**

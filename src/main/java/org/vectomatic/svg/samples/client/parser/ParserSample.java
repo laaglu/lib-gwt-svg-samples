@@ -21,6 +21,7 @@ import org.vectomatic.dom.svg.OMSVGSVGElement;
 import org.vectomatic.dom.svg.ui.ExternalSVGResource;
 import org.vectomatic.dom.svg.ui.SVGResource;
 import org.vectomatic.svg.samples.client.Main;
+import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
@@ -35,15 +36,14 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 /**
  * Class to demonstrate the parsing of SVG files
  * @author laaglu
  */
 public class ParserSample extends SampleBase {
-	interface ParserSampleBinder extends UiBinder<SimplePanel, ParserSample> {
+	interface ParserSampleBinder extends UiBinder<TabLayoutPanel, ParserSample> {
 	}
 	private static ParserSampleBinder binder = GWT.create(ParserSampleBinder.class);
 
@@ -58,6 +58,8 @@ public class ParserSample extends SampleBase {
 		ExternalSVGResource butterfly();
 	}
 
+	@UiField(provided=true)
+	public static MainBundle mainBundle = Main.mainBundle;
 	@UiField
 	HTML svgContainer;
 	@UiField
@@ -68,7 +70,7 @@ public class ParserSample extends SampleBase {
 
 		@Override
 		public void onError(ResourceException e) {
-			source.setHTML("Cannot find resource");
+			sourceHtml.setHTML("Cannot find resource");
 		}
 
 		@Override
@@ -81,18 +83,17 @@ public class ParserSample extends SampleBase {
 			} else {
 				div.appendChild(svg.getElement());					
 			}
-			Main.resizeHandler.onResize(null);
 		}
 		
 	};
 	
 	@Override
-	public Panel getPanel() {
-		if (panel == null) {
+	public TabLayoutPanel getPanel() {
+		if (tabPanel == null) {
 			// Initialize the UI with UiBinder
-			panel = binder.createAndBindUi(this);
-			tabPanel.getTabBar().setTabText(0, "Parser");
-			loadSampleCode("ParserSample");
+			tabPanel = binder.createAndBindUi(this);
+			tabPanel.setTabText(0, "Parser");
+			createCodeTabs("ParserSample");
 
 			// Fill the list box with svg file names
 			documentListBox.addItem("tiger");
@@ -101,7 +102,7 @@ public class ParserSample extends SampleBase {
 			documentListBox.setSelectedIndex(0);
 			documentListBoxChange(null);
 		}
-		return panel;
+		return tabPanel;
 	}
 	
 	@UiHandler("documentListBox")
@@ -120,7 +121,7 @@ public class ParserSample extends SampleBase {
 					break;
 			}
 		} catch(ResourceException e) {
-			source.setHTML("Cannot find resource");
+			sourceHtml.setHTML("Cannot find resource");
 		}
 	}
 

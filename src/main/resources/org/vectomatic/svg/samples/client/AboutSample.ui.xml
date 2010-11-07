@@ -1,0 +1,26 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:with field='mainBundle' type='org.vectomatic.svg.samples.client.Main.MainBundle' />
+	<g:TabLayoutPanel ui:field='tabPanel' barUnit='EM' barHeight='2'>
+		<g:tab>
+			<g:customHeader><g:Label styleName="{mainBundle.css.tab}">About</g:Label></g:customHeader>
+			<g:FlowPanel>
+				<g:SimplePanel>
+					<g:FlowPanel styleName="{mainBundle.css.sample}">
+						<g:HTML>
+							<table>
+								<tr><td><b>Application: </b>lib-gwt-svg-samples</td></tr>
+								<tr><td><b>Version: </b>0.5.1</td></tr>
+								<tr><td><b>Author: </b>Lukas Laag</td></tr>
+								<tr><td><i>This application demonstrates the use of the <a href="http://www.vectomatic.org/lib-gwt-svg">lib-gwt-svg</a> SVG library</i></td></tr>
+								<tr><td><b>License: </b></td></tr>
+								<tr><td>This software is licensed under <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPL v3</a></td></tr>
+								<tr><td>The complete source code can be obtained <a href="http://www.vectomatic.org">here</a></td></tr>
+							</table>
+						</g:HTML>		
+					</g:FlowPanel>
+				</g:SimplePanel>
+			</g:FlowPanel>
+		</g:tab>
+	</g:TabLayoutPanel>
+</ui:UiBinder>

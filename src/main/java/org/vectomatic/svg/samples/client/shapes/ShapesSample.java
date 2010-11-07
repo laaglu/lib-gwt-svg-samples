@@ -27,6 +27,8 @@ import org.vectomatic.dom.svg.OMSVGSVGElement;
 import org.vectomatic.dom.svg.OMSVGTextElement;
 import org.vectomatic.dom.svg.utils.OMSVGParser;
 import org.vectomatic.dom.svg.utils.SVGConstants;
+import org.vectomatic.svg.samples.client.Main;
+import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
@@ -35,28 +37,29 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 /**
  * Class to demonstrate the creation of miscellaneous SVG shapes
  * @author laaglu
  */
 public class ShapesSample extends SampleBase {
-	interface ShapesSampleBinder extends UiBinder<SimplePanel, ShapesSample> {
+	interface ShapesSampleBinder extends UiBinder<TabLayoutPanel, ShapesSample> {
 	}
 	private static ShapesSampleBinder binder = GWT.create(ShapesSampleBinder.class);
 
+	@UiField(provided=true)
+	public static MainBundle mainBundle = Main.mainBundle;
 	@UiField
 	HTML svgContainer;
 	OMSVGSVGElement svg;
 
 	@Override
-	public Panel getPanel() {
-		if (panel == null) {
-			panel = binder.createAndBindUi(this);
-			tabPanel.getTabBar().setTabText(0, "Shapes");
-			loadSampleCode("ShapesSample");
+	public TabLayoutPanel getPanel() {
+		if (tabPanel == null) {
+			tabPanel = binder.createAndBindUi(this);
+			tabPanel.setTabText(0, "Shapes");
+			createCodeTabs("ShapesSample");
 			
 			// Create a SVG document
 			OMSVGDocument doc = OMSVGParser.currentDocument();
@@ -107,7 +110,7 @@ public class ShapesSample extends SampleBase {
 			Element div = svgContainer.getElement();
 			div.appendChild(svg.getElement());
 		}
-		return panel;
+		return tabPanel;
 	}
 	@Override
 	protected void resize(int width, int height) {

@@ -19,6 +19,8 @@ package org.vectomatic.svg.samples.client.features;
 
 import org.vectomatic.dom.svg.utils.DOMHelper;
 import org.vectomatic.dom.svg.utils.SVGConstants;
+import org.vectomatic.svg.samples.client.Main;
+import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
@@ -26,11 +28,10 @@ import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 public class FeaturesSample extends SampleBase {
-	interface FeaturesSampleBinder extends UiBinder<SimplePanel, FeaturesSample> {
+	interface FeaturesSampleBinder extends UiBinder<TabLayoutPanel, FeaturesSample> {
 	}
 	private static FeaturesSampleBinder binder = GWT.create(FeaturesSampleBinder.class);
 	private static final String[] features = {
@@ -83,34 +84,37 @@ public class FeaturesSample extends SampleBase {
 		SVGConstants.SVG_FEATURE_XLINK_ATTRIBUTE
 	};
 
+	@UiField(provided=true)
+	public static MainBundle mainBundle = Main.mainBundle;
 	@UiField
 	FlexTable table;
 
 	@Override
-	public Panel getPanel() {
-		FeaturesCss css = FeaturesBundle.INSTANCE.getCss();
-		
-		// Inject CSS in the document headers
-		StyleInjector.inject(css.getText());
-		
-		// Initialize the UI with UiBinder
-		panel = binder.createAndBindUi(this);
-		tabPanel.getTabBar().setTabText(0, "Features");
-		loadSampleCode("FeaturesSample");
-		
-		// Test all the feature names
-		table.setText(0, 0, "Feature name");
-		table.getCellFormatter().addStyleName(0, 0, css.header());
-		table.setText(0, 1, "Supported");
-		table.getCellFormatter().addStyleName(0, 1, css.header());
-		for (int i = 0; i < features.length; i++) {
-			table.setText(i + 1, 0, features[i]);
-			boolean hasFeature = DOMHelper.hasFeature(features[i]);
-			table.setText(i + 1, 1, hasFeature ? "yes" : "no");
-			table.getCellFormatter().addStyleName(i + 1, 1, hasFeature ? css.supported() : css.unsupported());
+	public TabLayoutPanel getPanel() {
+		if (tabPanel == null) {
+			FeaturesCss css = FeaturesBundle.INSTANCE.getCss();
+			
+			// Inject CSS in the document headers
+			StyleInjector.inject(css.getText());
+			
+			// Initialize the UI with UiBinder
+			tabPanel = binder.createAndBindUi(this);
+			tabPanel.setTabText(0, "Features");
+			createCodeTabs("FeaturesSample");
+			
+			// Test all the feature names
+			table.setText(0, 0, "Feature name");
+			table.getCellFormatter().addStyleName(0, 0, css.header());
+			table.setText(0, 1, "Supported");
+			table.getCellFormatter().addStyleName(0, 1, css.header());
+			for (int i = 0; i < features.length; i++) {
+				table.setText(i + 1, 0, features[i]);
+				boolean hasFeature = DOMHelper.hasFeature(features[i]);
+				table.setText(i + 1, 1, hasFeature ? "yes" : "no");
+				table.getCellFormatter().addStyleName(i + 1, 1, hasFeature ? css.supported() : css.unsupported());
+			}
 		}
-		
-		return panel;
+		return tabPanel;
 	}
 
 }

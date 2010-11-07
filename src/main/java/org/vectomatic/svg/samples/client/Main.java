@@ -26,31 +26,29 @@ import org.vectomatic.svg.samples.client.widgets.WidgetsSample;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.HorizontalSplitPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.SplitPanelHelper;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
+/**
+ * Application main class. Creates the base UI structure and sets up
+ * individual samples
+ * @author laaglu
+ */
 public class Main implements EntryPoint {
-	interface MainBinder extends UiBinder<DecoratorPanel, Main> {
+	/**
+	 * UiBinder template interface
+	 */
+	interface MainBinder extends UiBinder<SplitLayoutPanel, Main> {
 	}
 	private static MainBinder binder = GWT.create(MainBinder.class);
 
@@ -61,87 +59,87 @@ public class Main implements EntryPoint {
 	private static final class GeneratorInfo {
 	}
 	
+	/**
+	 * Client bundle interface
+	 */
 	public interface MainBundle extends ClientBundle {
-		public static MainBundle INSTANCE = GWT.create(MainBundle.class);
 		@Source("orgball.gif")
 		public ImageResource treeItem();
+		@Source("main.css")
+		public MainCss css();
 	}
 	
-	@UiField
-	static HorizontalSplitPanel splitPanel;
+	/**
+	 * CSS interface
+	 */
+	public interface MainCss extends CssResource {
+		/**
+		 * style of tab items
+		 */
+		public String tab();
+		/**
+		 * style of sample container
+		 */
+		public String sample();
+	}
+	
+	/**
+	 * The mai resource bundle
+	 */
+	public static MainBundle mainBundle = GWT.create(MainBundle.class);
+	
+	/**
+	 * The sample navigation tree
+	 */
 	@UiField
 	Tree tree;
+	/**
+	 * The split panel
+	 */
 	@UiField
-	SimplePanel sampleContainer;
+	SplitLayoutPanel splitPanel;
+	/**
+	 * The currently selected sample
+	 */
 	static SampleBase currentSample;
 
-	public static ResizeHandler resizeHandler = new ResizeHandler() {
-		@Override
-		public void onResize(ResizeEvent event) {
-			int w = Window.getClientWidth();
-			int h = Window.getClientHeight() - 120;
-			splitPanel.setSize(w + Unit.PX.toString(), h + Unit.PX.toString());
-			
-			Style style = SplitPanelHelper.getStyle(splitPanel);
-			String leftPaneWidth = style.getWidth();
-			if (leftPaneWidth != null && leftPaneWidth.length() > 0) {
-				// Process events with size in pixels only
-				int index = leftPaneWidth.indexOf(Style.Unit.PX.name().toLowerCase());
-				if (index != -1) {
-					try {
-						currentSample.resize(w - Integer.valueOf(leftPaneWidth.substring(0, index)), h);
-					} catch(NumberFormatException e) {
-						GWT.log("Incorrect width: " + leftPaneWidth, e);
-					}
-				}
-			}
-		}
-	};
 
 	@Override
 	public void onModuleLoad() {
+		mainBundle.css().ensureInjected();
+		
 	    // Generate the source code for the examples
 	    GWT.create(GeneratorInfo.class);
-	    DecoratorPanel panel = binder.createAndBindUi(this);
+	    SplitLayoutPanel panel = binder.createAndBindUi(this);
 	    
 		// Populate the sample tree
-	    TreeItem shapesSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " shapes");
+	    TreeItem shapesSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " shapes");
 	    shapesSample.setUserObject(new ShapesSample());
-	    TreeItem eventSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " events");
+	    TreeItem eventSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " events");
 	    eventSample.setUserObject(new EventSample());
-	    TreeItem parserSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " parser");
+	    TreeItem parserSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " parser");
 	    parserSample.setUserObject(new ParserSample());
-	    TreeItem featuresSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " features");
+	    TreeItem featuresSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " features");
 	    featuresSample.setUserObject(new FeaturesSample());
-	    TreeItem widgetsSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " widgets");
+	    TreeItem widgetsSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " widgets");
 	    widgetsSample.setUserObject(new WidgetsSample());
-	    TreeItem smilSample = tree.addItem(AbstractImagePrototype.create(MainBundle.INSTANCE.treeItem()).getHTML() +  " SMIL animation");
+	    TreeItem smilSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " SMIL animation");
 	    smilSample.setUserObject(new SmilSample());
+	    TreeItem about = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " about");
+	    about.setUserObject(new AboutSample());
 	    tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event) {
+				if (currentSample != null) {
+					splitPanel.remove(currentSample.getPanel());
+				}
 				currentSample = (SampleBase) event.getSelectedItem().getUserObject();
-				Panel samplePanel = currentSample.getPanel();
-				sampleContainer.setWidget(samplePanel);
-				resizeHandler.onResize(null);
+				splitPanel.add(currentSample.getPanel());
 			}
 	    	
 	    });
 	    tree.setSelectedItem(shapesSample);
 
-		// Hack the HorizontalSplitPanel to generate an event when
-		// the splitter element is moved
-		splitPanel.setSplitPosition("20%");
-		SplitPanelHelper.addHandler(splitPanel, new MouseMoveHandler() {
-			@Override
-			public void onMouseMove(MouseMoveEvent event) {
-				if (splitPanel.isResizing()) {
-					resizeHandler.onResize(null);
-				}
-			}
-		}, MouseMoveEvent.getType());
-	    Window.addResizeHandler(resizeHandler);
-	    resizeHandler.onResize(null);
-	    RootPanel.get("uiRoot").add(panel);
+	    RootLayoutPanel.get().add(panel);
 	}
 }
