@@ -41,7 +41,7 @@
 			<!-- Must appear before gwt-user to allow injection of custom UiBinder parser in classpath -->
 			<groupId>org.vectomatic</groupId>
 			<artifactId>lib-gwt-svg</artifactId>
-			<version>0.5.0</version>
+			<version>0.5.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -66,7 +66,26 @@
 	</properties>
 	
 	<build>
-		<plugins>
+	  <!-- Use maven filtering to update project version in the UI -->
+	  <!-- Disabled because of bug in GWT maven plugin
+	   http://jira.codehaus.org/browse/MGWT-216 -->
+	  <!-- <resources>
+		<resource>
+		  <directory>src/main/resources</directory>
+		  <filtering>true</filtering>
+          <includes>
+            <include>org/vectomatic/svg/samples/client/AboutSample.ui.xml</include>
+          </includes>
+		</resource>
+		<resource>
+		  <directory>src/main/resources</directory>
+		  <filtering>false</filtering>
+          <excludes>
+            <exclude>org/vectomatic/svg/samples/client/AboutSample.ui.xml</exclude>
+          </excludes>
+		</resource>
+	  </resources> -->
+      <plugins>
 			<!-- Build using java 1.6. GWT requires at least Java 1.5 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -164,6 +183,11 @@
 			<name>maven repository</name>
 			<url>${deployment.root}/mvn</url>
 		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>local nexus snapshot repository</name>
+			<url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
 		<site>
 			<id>${deployment.id}</id>
 			<name>maven site</name>

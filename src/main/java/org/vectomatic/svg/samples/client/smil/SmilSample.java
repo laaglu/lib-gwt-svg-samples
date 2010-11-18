@@ -10,12 +10,10 @@ import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SmilSample extends SampleBase implements RepeatHandler {
 	interface SmilSampleBinder extends UiBinder<TabLayoutPanel, SmilSample> {
@@ -54,14 +52,4 @@ public class SmilSample extends SampleBase implements RepeatHandler {
 		int count = Integer.parseInt(loopCount.getText());
 		loopCount.setText(Integer.toString(count + 1));
 	}
-
-	@Override
-	protected void resize(int width, int height) {
-		GWT.log(width + " " + height);
-		if (svg != null) {
-			svg.getStyle().setWidth(width, Unit.PX);
-			svg.getStyle().setHeight(height, Unit.PX);
-		}
-	}
-
 }

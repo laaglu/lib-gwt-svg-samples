@@ -31,7 +31,6 @@ import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
@@ -39,6 +38,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Element;
@@ -102,6 +102,8 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 					while (color.equals(getCircleColor(circle))) {
 						setCircleColor(circle, colors[Random.nextInt(colors.length)]);
 					}
+					event.stopPropagation();
+					event.preventDefault();
 				}
 			});
 			
@@ -154,7 +156,7 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 	 * The coordinates of the mouse event, converted
 	 * to the SVG coordinate system
 	 */
-	public OMSVGPoint getLocalCoordinates(MouseEvent e) {
+	public OMSVGPoint getLocalCoordinates(MouseEvent<? extends EventHandler> e) {
 		OMSVGPoint p = svg.createSVGPoint(e.getClientX(), e.getClientY());
 		OMSVGMatrix m = svg.getScreenCTM().inverse();
 		return p.matrixTransform(m);
@@ -171,13 +173,5 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 		event.stopPropagation();
 		event.preventDefault();
 	}
-
-	@Override
-	protected void resize(int width, int height) {
-		GWT.log(width + " " + height);
-		if (svg != null) {
-			svg.getStyle().setWidth(width, Unit.PX);
-			svg.getStyle().setHeight(height, Unit.PX);
-		}
-	}
 }
+

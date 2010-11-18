@@ -25,7 +25,6 @@ import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ResourceCallback;
@@ -122,15 +121,6 @@ public class ParserSample extends SampleBase {
 			}
 		} catch(ResourceException e) {
 			sourceHtml.setHTML("Cannot find resource");
-		}
-	}
-
-	@Override
-	protected void resize(int width, int height) {
-		GWT.log(width + " " + height);
-		if (svg != null) {
-			svg.getStyle().setWidth(width, Unit.PX);
-			svg.getStyle().setHeight(height, Unit.PX);
 		}
 	}
 }
