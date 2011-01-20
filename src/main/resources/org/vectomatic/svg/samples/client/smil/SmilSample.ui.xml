@@ -13,12 +13,13 @@
 							<svg ui:field="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
 							  <rect x="0" y="0" width="300" height="100" stroke="black" stroke-width="1" />
 							  <circle ui:field="circle" cx="0" cy="50" r="15" fill="blue" stroke="black" stroke-width="1"><animate attributeName="cx" from="0" to="300" begin="0s" dur="3s" repeatCount="indefinite" /></circle>
+							  <text x="10" y="95" style="stroke:red;fill:red;font-family:Verdana;font-size:10;"><tspan>Number of loops:</tspan><tspan style="font-weight:bold;" ui:field="countSpan">0</tspan></text>
+							  <text x="10" y="12" ui:field="beginText" style="stroke:white;fill:white;font-family:Verdana;font-size:10;">Begin</text>
+							  <text x="290" y="12" text-anchor="end" ui:field="endText" style="stroke:white;fill:white;font-family:Verdana;font-size:10;">End</text>
 							</svg>
 						</svgui:SVGImage>
-						<g:HorizontalPanel>
-							<g:Label text="Number of loops:"/>
-							<g:Label text="0" ui:field="loopCount"/>
-						</g:HorizontalPanel>
+						<g:Button ui:field="beginButton">Begin</g:Button>
+						<g:Button ui:field="endButton">End</g:Button>
 					</g:FlowPanel>
 				</g:SimplePanel>
 			</g:FlowPanel>

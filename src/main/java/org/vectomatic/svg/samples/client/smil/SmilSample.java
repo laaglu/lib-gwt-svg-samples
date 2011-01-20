@@ -3,19 +3,30 @@ package org.vectomatic.svg.samples.client.smil;
 import org.vectomatic.dom.svg.OMSVGAnimateElement;
 import org.vectomatic.dom.svg.OMSVGCircleElement;
 import org.vectomatic.dom.svg.OMSVGSVGElement;
+import org.vectomatic.dom.svg.OMSVGTSpanElement;
+import org.vectomatic.dom.svg.OMSVGTextElement;
+import org.vectomatic.dom.svg.OMText;
+import org.vectomatic.dom.svg.events.BeginEvent;
+import org.vectomatic.dom.svg.events.BeginHandler;
+import org.vectomatic.dom.svg.events.EndEvent;
+import org.vectomatic.dom.svg.events.EndHandler;
 import org.vectomatic.dom.svg.events.RepeatEvent;
 import org.vectomatic.dom.svg.events.RepeatHandler;
+import org.vectomatic.dom.svg.utils.SVGConstants;
 import org.vectomatic.svg.samples.client.Main;
 import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
-public class SmilSample extends SampleBase implements RepeatHandler {
+public class SmilSample extends SampleBase implements RepeatHandler, BeginHandler, EndHandler {
 	interface SmilSampleBinder extends UiBinder<TabLayoutPanel, SmilSample> {
 	}
 	private static SmilSampleBinder binder = GWT.create(SmilSampleBinder.class);
@@ -28,7 +39,28 @@ public class SmilSample extends SampleBase implements RepeatHandler {
 	@UiField
 	OMSVGCircleElement circle;
 	@UiField
-	Label loopCount;
+	OMSVGTSpanElement countSpan;
+	@UiField
+	OMSVGTextElement beginText;
+	@UiField
+	OMSVGTextElement endText;
+	@UiField
+	Button endButton;
+	@UiField
+	Button beginButton;
+	
+	Timer beginTimer = new Timer() {
+		@Override
+		public void run() {
+			setTextColor(beginText, SVGConstants.CSS_WHITE_VALUE);
+		}
+	};
+	Timer endTimer = new Timer() {
+		@Override
+		public void run() {
+			setTextColor(endText, SVGConstants.CSS_WHITE_VALUE);
+		}
+	};
 
 	@Override
 	public TabLayoutPanel getPanel() {
@@ -43,13 +75,50 @@ public class SmilSample extends SampleBase implements RepeatHandler {
 			OMSVGAnimateElement anim = (OMSVGAnimateElement)circle.getFirstChild();
 			if (anim != null) {
 				anim.addRepeatHandler(this);
+				anim.addBeginHandler(this);
+				anim.addEndHandler(this);
 			}
 		}
 		return tabPanel;
 	}
 	
+	@Override
 	public void onRepeat(RepeatEvent e) {
-		int count = Integer.parseInt(loopCount.getText());
-		loopCount.setText(Integer.toString(count + 1));
+		OMText loopCount = (OMText) countSpan.getFirstChild();
+		int count = Integer.parseInt(loopCount.getData());
+		loopCount.setData(Integer.toString(count + 1));
 	}
+
+	@Override
+	public void onEnd(EndEvent event) {
+		setTextColor(endText, SVGConstants.CSS_YELLOW_VALUE);
+		endTimer.schedule(200);
+	}
+
+	@Override
+	public void onBegin(BeginEvent event) {
+		setTextColor(beginText, SVGConstants.CSS_YELLOW_VALUE);
+		beginTimer.schedule(200);
+	}
+	
+	private void setTextColor(OMSVGTextElement text, String color) {
+		text.getStyle().setSVGProperty(SVGConstants.CSS_FILL_PROPERTY, color);
+		text.getStyle().setSVGProperty(SVGConstants.CSS_STROKE_PROPERTY, color);
+	}
+	
+	@UiHandler("endButton")
+	public void end(ClickEvent event) {
+		OMSVGAnimateElement anim = (OMSVGAnimateElement)circle.getFirstChild();
+		if (anim != null) {
+			anim.endElement();
+		}
+	}
+	@UiHandler("beginButton")
+	public void begin(ClickEvent event) {
+		OMSVGAnimateElement anim = (OMSVGAnimateElement)circle.getFirstChild();
+		if (anim != null) {
+			anim.beginElement();
+		}
+	}
+
 }
