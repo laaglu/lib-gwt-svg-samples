@@ -34,10 +34,12 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Application main class. Creates the base UI structure and sets up
@@ -99,9 +101,11 @@ public class Main implements EntryPoint {
 	@UiField
 	SplitLayoutPanel splitPanel;
 	/**
-	 * The currently selected sample
+	 * A LayoutPanel which acts as a card layout (it has several
+	 * child widgets, but only one is visible at a given time).
 	 */
-	static SampleBase currentSample;
+	@UiField
+	LayoutPanel sampleContainer;
 
 
 	@Override
@@ -130,16 +134,36 @@ public class Main implements EntryPoint {
 	    tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event) {
-				if (currentSample != null) {
-					splitPanel.remove(currentSample.getPanel());
-				}
-				currentSample = (SampleBase) event.getSelectedItem().getUserObject();
-				splitPanel.add(currentSample.getPanel());
+				SampleBase currentSample = (SampleBase) event.getSelectedItem().getUserObject();
+				selectSample(currentSample.getPanel());
 			}
 	    	
 	    });
 	    tree.setSelectedItem(shapesSample);
 
 	    RootLayoutPanel.get().add(panel);
+	}
+	
+	/**
+	 * If it is not already a child of the layoutPanel,
+	 * adds this sample panel to children of the layoutPanel. Make all other children
+	 * hidden except this this sample panel.
+	 */
+	private void selectSample(Widget samplePanel) {
+		int count = sampleContainer.getWidgetCount();
+		int index = -1;
+		for (int i = 0; i < count; i++) {
+			Widget w = sampleContainer.getWidget(i);
+			if (w != samplePanel) {
+				sampleContainer.setWidgetVisible(w, false);
+			} else {
+				sampleContainer.setWidgetVisible(w, true);
+				index = i;
+			}
+		}
+		if (index == -1) {
+			sampleContainer.add(samplePanel);
+			sampleContainer.setWidgetVisible(samplePanel, true);
+		}
 	}
 }

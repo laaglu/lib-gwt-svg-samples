@@ -4,5 +4,8 @@
       <g:west size='128'>
 		<g:Tree ui:field="tree"/>
       </g:west>
+      <g:center>
+        <g:LayoutPanel ui:field="sampleContainer"/>
+      </g:center>
     </g:SplitLayoutPanel>
 </ui:UiBinder>

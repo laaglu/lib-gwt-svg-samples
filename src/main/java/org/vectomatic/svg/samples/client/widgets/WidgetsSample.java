@@ -25,6 +25,8 @@ package org.vectomatic.svg.samples.client.widgets;
 
 import org.vectomatic.dom.svg.OMSVGGElement;
 import org.vectomatic.dom.svg.OMSVGPathElement;
+import org.vectomatic.dom.svg.OMSVGTSpanElement;
+import org.vectomatic.dom.svg.OMText;
 import org.vectomatic.dom.svg.ui.SVGImage;
 import org.vectomatic.dom.svg.ui.SVGPushButton;
 import org.vectomatic.dom.svg.ui.SVGResource;
@@ -48,7 +50,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
@@ -124,7 +125,7 @@ public class WidgetsSample extends SampleBase {
 	@UiField
 	SVGPushButton holdMeDownButton;
 	@UiField
-	Label clickCount;
+	OMSVGTSpanElement clickCount;
 	
 	// SVG defined inline with bindings to internal elements
 	@UiField
@@ -221,7 +222,8 @@ public class WidgetsSample extends SampleBase {
 
 	@UiHandler("holdMeDownButton")
 	public void onMouseDown(MouseDownEvent event) {
-		int count = Integer.parseInt(clickCount.getText());
-		clickCount.setText(Integer.toString(count + 1));
+		OMText text = (OMText) clickCount.getFirstChild();
+		int count = Integer.parseInt(text.getData());
+		text.setData(Integer.toString(count + 1));	
 	}
 }

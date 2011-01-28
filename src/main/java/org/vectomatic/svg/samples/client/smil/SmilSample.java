@@ -1,5 +1,7 @@
 package org.vectomatic.svg.samples.client.smil;
 
+import java.util.Iterator;
+
 import org.vectomatic.dom.svg.OMSVGAnimateElement;
 import org.vectomatic.dom.svg.OMSVGCircleElement;
 import org.vectomatic.dom.svg.OMSVGSVGElement;
@@ -12,7 +14,9 @@ import org.vectomatic.dom.svg.events.EndEvent;
 import org.vectomatic.dom.svg.events.EndHandler;
 import org.vectomatic.dom.svg.events.RepeatEvent;
 import org.vectomatic.dom.svg.events.RepeatHandler;
+import org.vectomatic.dom.svg.utils.DOMHelper;
 import org.vectomatic.dom.svg.utils.SVGConstants;
+import org.vectomatic.dom.svg.utils.SVGPrefixResolver;
 import org.vectomatic.svg.samples.client.Main;
 import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
@@ -72,7 +76,7 @@ public class SmilSample extends SampleBase implements RepeatHandler, BeginHandle
 			// Add the repeat handler manually instead of using the @UiHandler annotation
 			// Indeed, since many browsers do not yet support the SVG anim tag, the
 			// anim variable may well be null
-			OMSVGAnimateElement anim = (OMSVGAnimateElement)circle.getFirstChild();
+			OMSVGAnimateElement anim = getAnimation(); 
 			if (anim != null) {
 				anim.addRepeatHandler(this);
 				anim.addBeginHandler(this);
@@ -80,6 +84,14 @@ public class SmilSample extends SampleBase implements RepeatHandler, BeginHandle
 			}
 		}
 		return tabPanel;
+	}
+	
+	private OMSVGAnimateElement getAnimation() {
+		Iterator<OMSVGAnimateElement> iterator = DOMHelper.evaluateXPath(circle, "svg:animate", SVGPrefixResolver.INSTANCE);
+		if (iterator.hasNext()) {
+			return iterator.next(); 
+		}
+		return null;
 	}
 	
 	@Override
@@ -108,14 +120,14 @@ public class SmilSample extends SampleBase implements RepeatHandler, BeginHandle
 	
 	@UiHandler("endButton")
 	public void end(ClickEvent event) {
-		OMSVGAnimateElement anim = (OMSVGAnimateElement)circle.getFirstChild();
+		OMSVGAnimateElement anim = getAnimation(); 
 		if (anim != null) {
 			anim.endElement();
 		}
 	}
 	@UiHandler("beginButton")
 	public void begin(ClickEvent event) {
-		OMSVGAnimateElement anim = (OMSVGAnimateElement)circle.getFirstChild();
+		OMSVGAnimateElement anim = getAnimation(); 
 		if (anim != null) {
 			anim.beginElement();
 		}
