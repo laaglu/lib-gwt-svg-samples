@@ -19,7 +19,9 @@ package org.vectomatic.svg.samples.client.parser;
 
 import org.vectomatic.dom.svg.OMSVGSVGElement;
 import org.vectomatic.dom.svg.ui.ExternalSVGResource;
+import org.vectomatic.dom.svg.ui.ExternalSVGResource.Validated;
 import org.vectomatic.dom.svg.ui.SVGResource;
+import org.vectomatic.dom.svg.utils.ParserException;
 import org.vectomatic.svg.samples.client.Main;
 import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
@@ -33,6 +35,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -55,6 +58,9 @@ public class ParserSample extends SampleBase {
 		ExternalSVGResource lion();
 		@Source("butterfly.svg")
 		ExternalSVGResource butterfly();
+		@Source("notwellformed.svg")
+		@Validated(validated = false)
+		ExternalSVGResource notwellformed();
 	}
 
 	@UiField(provided=true)
@@ -64,6 +70,7 @@ public class ParserSample extends SampleBase {
 	@UiField
 	ListBox documentListBox;
 	OMSVGSVGElement svg;
+	private int lastSelectedIndex;
 
 	ResourceCallback<SVGResource> callback = new ResourceCallback<SVGResource>() {
 
@@ -98,6 +105,7 @@ public class ParserSample extends SampleBase {
 			documentListBox.addItem("tiger");
 			documentListBox.addItem("lion");
 			documentListBox.addItem("butterfly");
+			documentListBox.addItem("not well formed");
 			documentListBox.setSelectedIndex(0);
 			documentListBoxChange(null);
 		}
@@ -118,7 +126,16 @@ public class ParserSample extends SampleBase {
 				case 2:
 					ParserSampleBundle.INSTANCE.butterfly().getSvg(callback);
 					break;
+				case 3:
+					try {
+						ParserSampleBundle.INSTANCE.notwellformed().getSvg(callback);
+					} catch(ParserException e) {
+						Window.alert("Parsing error: " + e.getMessage());
+						documentListBox.setSelectedIndex(lastSelectedIndex);
+					}
+					break;
 			}
+			lastSelectedIndex = documentListBox.getSelectedIndex();
 		} catch(ResourceException e) {
 			sourceHtml.setHTML("Cannot find resource");
 		}
