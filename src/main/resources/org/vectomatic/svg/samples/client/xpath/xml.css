@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+.markup {
+	color:darkblue; }
+.element {
+	color:indianred; }
+.attribute {
+	color:darkolivegreen; }
+.text {
+	color:gray; }
+.comment {
+	color:gainsboro; }
+.selected {
+	font-weight:bold;
+}
+.root {
+}

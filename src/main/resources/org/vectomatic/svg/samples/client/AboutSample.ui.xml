@@ -16,6 +16,7 @@
 								<tr><td><b>License: </b></td></tr>
 								<tr><td>This software is licensed under <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPL v3</a></td></tr>
 								<tr><td>The complete source code can be obtained <a href="http://www.vectomatic.org">here</a></td></tr>
+								<tr><td>On IE, this software uses <a href="http://mcc.id.au/xpathjs">xpath.js</a> by Cameron McCormack</td></tr>
 							</table>
 						</g:HTML>		
 					</g:FlowPanel>

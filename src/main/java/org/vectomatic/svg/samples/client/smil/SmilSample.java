@@ -1,3 +1,20 @@
+/**********************************************
+ * Copyright (C) 2010 Lukas Laag
+ * This file is part of lib-gwt-svg-samples.
+ * 
+ * libgwtsvg-samples is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * libgwtsvg-samples is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with libgwtsvg-samples.  If not, see http://www.gnu.org/licenses/
+ **********************************************/
 package org.vectomatic.svg.samples.client.smil;
 
 import java.util.Iterator;
@@ -30,6 +47,10 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
+/**
+ * Class to demonstrate the use of SVG/SMIL animations
+ * @author laaglu
+ */
 public class SmilSample extends SampleBase implements RepeatHandler, BeginHandler, EndHandler {
 	interface SmilSampleBinder extends UiBinder<TabLayoutPanel, SmilSample> {
 	}

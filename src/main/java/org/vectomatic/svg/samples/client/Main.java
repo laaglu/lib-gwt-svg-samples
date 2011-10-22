@@ -23,6 +23,7 @@ import org.vectomatic.svg.samples.client.parser.ParserSample;
 import org.vectomatic.svg.samples.client.shapes.ShapesSample;
 import org.vectomatic.svg.samples.client.smil.SmilSample;
 import org.vectomatic.svg.samples.client.widgets.WidgetsSample;
+import org.vectomatic.svg.samples.client.xpath.XPathSample;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -129,6 +130,8 @@ public class Main implements EntryPoint {
 	    widgetsSample.setUserObject(new WidgetsSample());
 	    TreeItem smilSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " SMIL animation");
 	    smilSample.setUserObject(new SmilSample());
+	    TreeItem xpathSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " XPath");
+	    xpathSample.setUserObject(new XPathSample());
 	    TreeItem about = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " about");
 	    about.setUserObject(new AboutSample());
 	    tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
