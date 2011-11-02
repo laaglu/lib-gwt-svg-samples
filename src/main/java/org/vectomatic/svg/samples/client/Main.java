@@ -34,7 +34,9 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
@@ -111,6 +113,29 @@ public class Main implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
+			public void onUncaughtException(Throwable throwable) {
+				String text = "Uncaught exception: ";
+				while (throwable != null) {
+					StackTraceElement[] stackTraceElements = throwable
+							.getStackTrace();
+					text += throwable.toString() + "\n";
+					for (int i = 0; i < stackTraceElements.length; i++) {
+						text += "    at " + stackTraceElements[i] + "\n";
+					}
+					throwable = throwable.getCause();
+					if (throwable != null) {
+						text += "Caused by: ";
+					}
+				}
+				DialogBox dialogBox = new DialogBox(true);
+				DOM.setStyleAttribute(dialogBox.getElement(), "backgroundColor", "#ABCDEF");
+				System.err.print(text);
+				text = text.replaceAll(" ", "&nbsp;");
+				dialogBox.setHTML("<pre>" + text + "</pre>");
+				dialogBox.center();
+			}
+		});
 		mainBundle.css().ensureInjected();
 		
 	    // Generate the source code for the examples
