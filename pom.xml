@@ -41,7 +41,7 @@
 			<!-- Must appear before gwt-user to allow injection of custom UiBinder parser in classpath -->
 			<groupId>org.vectomatic</groupId>
 			<artifactId>lib-gwt-svg</artifactId>
-			<version>0.5.4</version>
+			<version>0.5.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -114,7 +114,9 @@
 					<packagingExcludes>WEB-INF/lib/*.jar,WEB-INF/classes/**</packagingExcludes>
 				</configuration>
 			</plugin>
-			<!--  configure the GWT-Maven plugin -->
+			<!-- Configure the GWT-Maven plugin -->
+			<!-- You can defined the google.webtoolkit.home property if you want to use a
+			local GWT installation -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
@@ -149,8 +151,7 @@
 					</execution>
 				</executions>
 			</plugin>
-      		</plugins>
-		<finalName>lib-gwt-svg-samples</finalName>
+   		</plugins>
 	</build>
 	<reporting>
 		<plugins>
@@ -188,23 +189,6 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<distributionManagement>
-		<repository>
-			<id>${deployment.id}</id>
-			<name>maven repository</name>
-			<url>${deployment.root}/mvn</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>local nexus snapshot repository</name>
-			<url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
-		<site>
-			<id>${deployment.id}</id>
-			<name>maven site</name>
-			<url>${deployment.root}/mvn-sites/${project.artifactId}</url>
-		</site>
-	</distributionManagement>
 	<profiles>
 		<!-- There are two build profiles: development and production
 		+ by default, the production profile is assumed
@@ -219,8 +203,6 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<deployment.id>local-server</deployment.id>
-				<deployment.root>scp://localhost/var/www/vectomatic</deployment.root>
  				<!-- Build options for development mode -->
     			<gwt.style>DETAILED</gwt.style>
     			<gwt.logLevel>WARN</gwt.logLevel>
