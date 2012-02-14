@@ -10,7 +10,7 @@
 						<g:HTML>
 							<table>
 								<tr><td><b>Application: </b>lib-gwt-svg-samples</td></tr>
-								<tr><td><b>Version: </b>0.5.5</td></tr>
+								<tr><td><b>Version: </b>${project.version}</td></tr>
 								<tr><td><b>Author: </b>Lukas Laag</td></tr>
 								<tr><td><i>This application demonstrates the use of the <a href="http://www.vectomatic.org/lib-gwt-svg">lib-gwt-svg</a> SVG library</i></td></tr>
 								<tr><td><b>License: </b></td></tr>
