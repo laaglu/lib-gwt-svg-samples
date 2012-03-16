@@ -81,7 +81,9 @@ public class FeaturesSample extends SampleBase {
 		SVGConstants.SVG_FEATURE_TEXT,
 		SVGConstants.SVG_FEATURE_VIEW,
 		SVGConstants.SVG_FEATURE_VIEWPORT_ATTRIBUTE,
-		SVGConstants.SVG_FEATURE_XLINK_ATTRIBUTE
+		SVGConstants.SVG_FEATURE_XLINK_ATTRIBUTE,
+		SVGConstants.SVG_FEATURE_TOUCH_EVENTS,
+		SVGConstants.SVG_FEATURE_DND_EVENTS
 	};
 
 	@UiField(provided=true)
