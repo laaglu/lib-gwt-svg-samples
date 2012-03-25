@@ -17,6 +17,7 @@
  **********************************************/
 package org.vectomatic.svg.samples.client;
 
+import org.vectomatic.svg.samples.client.dnd.DndSample;
 import org.vectomatic.svg.samples.client.events.EventSample;
 import org.vectomatic.svg.samples.client.features.FeaturesSample;
 import org.vectomatic.svg.samples.client.parser.ParserSample;
@@ -157,6 +158,8 @@ public class Main implements EntryPoint {
 	    smilSample.setUserObject(new SmilSample());
 	    TreeItem xpathSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " XPath");
 	    xpathSample.setUserObject(new XPathSample());
+	    TreeItem dndSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " Drag-and-Drop");
+	    dndSample.setUserObject(new DndSample());
 	    TreeItem about = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " about");
 	    about.setUserObject(new AboutSample());
 	    tree.addSelectionHandler(new SelectionHandler<TreeItem>() {

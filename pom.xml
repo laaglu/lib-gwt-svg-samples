@@ -19,9 +19,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<url>http://code.google.com/p/vectomatic/source/browse/#svn/lib-gwt-svg-samples/trunk</url>
-		<connection>scm:svn:http://vectomatic.googlecode.com/svn/lib-gwt-svg-samples/trunk</connection>
-		<developerConnection>scm:svn:file:///home/laaglu/svn/laaglu-svn/lib-gwt-svg-samples/trunk</developerConnection>
+		<url>scm:git:git@github.com:laaglu/lib-gwt-svg-samples.git</url>
+		<connection>scm:git:git@github.com:laaglu/lib-gwt-svg-samples.git</connection>
+		<developerConnection>scm:git:git@github.com:laaglu/lib-gwt-svg-samples.git</developerConnection>
 	</scm>
 	<developers>
 		<developer>
@@ -105,11 +105,11 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<!-- Produce a skinny war as only the GWT-generated files are of interest -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<!-- Produce a skinny war as only the GWT-generated files are of interest -->
 					<packagingExcludes>WEB-INF/lib/*.jar,WEB-INF/classes/**</packagingExcludes>
 				</configuration>
 			</plugin>
