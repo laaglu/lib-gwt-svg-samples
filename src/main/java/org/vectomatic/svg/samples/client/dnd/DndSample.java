@@ -7,9 +7,6 @@ import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.DragEnterEvent;
 import com.google.gwt.event.dom.client.DragLeaveEvent;
@@ -21,7 +18,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -169,7 +165,6 @@ public class DndSample extends SampleBase {
 
 	@UiHandler("bee")
 	public void beeDragStart(DragStartEvent event) {
-		GWT.log("beeDragStart");
 		event.getDataTransfer().setData("text/plain", "bzzz");
 	}
 }
