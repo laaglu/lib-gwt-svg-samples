@@ -34,6 +34,7 @@
 		height:20%;
 		left:40%;
 		top:40%;
+		border:none;
 	}
 	.instructions {
 		position:absolute;
@@ -67,7 +68,7 @@
 					  <svgui:SVGImage ui:field="fruit1" resource="{resources.fruit1}" classNameBaseVal="{style.pos1} {style.hidden}"/>
 					  <svgui:SVGImage ui:field="fruit2" resource="{resources.fruit2}" classNameBaseVal="{style.pos2} {style.hidden}"/>
 					  <svgui:SVGImage ui:field="fruit3" resource="{resources.fruit3}" classNameBaseVal="{style.pos3} {style.hidden}"/>
-					  <svgui:SVGImage ui:field="bee" resource="{resources.bee}" classNameBaseVal="{style.bee}"/>
+					  <g:Image ui:field="bee" styleName="{style.bee}" url="data:image/svg+xml;utf8,{resources.bee.getSvg.getMarkup}"/>
 					</g:FlowPanel>
 				</g:SimplePanel>
 			</g:FlowPanel>

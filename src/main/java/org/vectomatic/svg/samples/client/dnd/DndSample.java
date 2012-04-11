@@ -1,6 +1,5 @@
 package org.vectomatic.svg.samples.client.dnd;
 
-import org.vectomatic.dom.svg.OMSVGRect;
 import org.vectomatic.dom.svg.ui.SVGImage;
 import org.vectomatic.dom.svg.ui.SVGResource;
 import org.vectomatic.svg.samples.client.Main;
@@ -8,11 +7,11 @@ import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Visibility;
-import com.google.gwt.event.dom.client.DragEndEvent;
 import com.google.gwt.event.dom.client.DragEnterEvent;
-import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragLeaveEvent;
 import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragStartEvent;
@@ -21,7 +20,10 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 public class DndSample extends SampleBase {
@@ -65,11 +67,9 @@ public class DndSample extends SampleBase {
 	@UiField
 	SVGImage fruit3;
 	@UiField
-	SVGImage bee;
+	Image bee;
 	@UiField
 	FlowPanel container;
-//	@UiField
-//	SVGPushButton resetButton;
 	
 	@Override
 	public TabLayoutPanel getPanel() {
@@ -77,7 +77,6 @@ public class DndSample extends SampleBase {
 			tabPanel = binder.createAndBindUi(this);
 			tabPanel.setTabText(0, "Drag-And-Drop");
 			createCodeTabs("DndSample");
-			container.getElement().setAttribute("draggable", "false");
 			bee.getElement().setAttribute("draggable", "true");
 		}
 		return tabPanel;
@@ -86,6 +85,7 @@ public class DndSample extends SampleBase {
 	@UiHandler("flower1")
 	public void flower1Enter(DragEnterEvent event) {
 		flower1.getStyle().setOpacity(0.5f);
+		event.preventDefault();
 	}
 	@UiHandler("flower1")
 	public void flower1Leave(DragLeaveEvent event) {
@@ -94,16 +94,27 @@ public class DndSample extends SampleBase {
 	@UiHandler("flower1")
 	public void flower1Over(DragOverEvent event) {
 		flower1.getStyle().setOpacity(0.5f);
+		event.preventDefault();
 	}
 	@UiHandler("flower1")
 	public void flower1Drop(DropEvent event) {
 		flower1.getStyle().setVisibility(Visibility.HIDDEN);
+		flower1.getStyle().setOpacity(1f);
 		fruit1.getStyle().setVisibility(Visibility.VISIBLE);
+		Timer t = new Timer() {
+			@Override
+			public void run() {
+				flower1.getStyle().setVisibility(Visibility.VISIBLE);
+				fruit1.getStyle().setVisibility(Visibility.HIDDEN);
+			}
+		};
+		t.schedule(3000);
 	}
 
 	@UiHandler("flower2")
 	public void flower2Enter(DragEnterEvent event) {
 		flower2.getStyle().setOpacity(0.5f);
+		event.preventDefault();
 	}
 	@UiHandler("flower2")
 	public void flower2Leave(DragLeaveEvent event) {
@@ -111,16 +122,27 @@ public class DndSample extends SampleBase {
 	}
 	@UiHandler("flower2")
 	public void flower2Over(DragOverEvent event) {
+		event.preventDefault();
 	}
 	@UiHandler("flower2")
 	public void flower2Drop(DropEvent event) {
 		flower2.getStyle().setVisibility(Visibility.HIDDEN);
+		flower2.getStyle().setOpacity(1f);
 		fruit2.getStyle().setVisibility(Visibility.VISIBLE);
+		Timer t = new Timer() {
+			@Override
+			public void run() {
+				flower2.getStyle().setVisibility(Visibility.VISIBLE);
+				fruit2.getStyle().setVisibility(Visibility.HIDDEN);
+			}
+		};
+		t.schedule(3000);
 	}
 
 	@UiHandler("flower3")
 	public void flower3Enter(DragEnterEvent event) {
 		flower3.getStyle().setOpacity(0.5f);
+		event.preventDefault();
 	}
 	@UiHandler("flower3")
 	public void flower3Leave(DragLeaveEvent event) {
@@ -128,30 +150,26 @@ public class DndSample extends SampleBase {
 	}
 	@UiHandler("flower3")
 	public void flower3Over(DragOverEvent event) {
+		event.preventDefault();
 	}
 	@UiHandler("flower3")
 	public void flower3Drop(DropEvent event) {
 		flower3.getStyle().setVisibility(Visibility.HIDDEN);
+		flower3.getStyle().setOpacity(1f);
 		fruit3.getStyle().setVisibility(Visibility.VISIBLE);
+		Timer t = new Timer() {
+			@Override
+			public void run() {
+				flower3.getStyle().setVisibility(Visibility.VISIBLE);
+				fruit3.getStyle().setVisibility(Visibility.HIDDEN);
+			}
+		};
+		t.schedule(3000);
 	}
 
 	@UiHandler("bee")
 	public void beeDragStart(DragStartEvent event) {
 		GWT.log("beeDragStart");
-		OMSVGRect rect = bee.getSvgElement().getBBox();
-		event.getDataTransfer().setDragImage(bee.getSvgElement().getElement(), (int)(rect.getWidth()), (int)(0.5f* rect.getHeight()));
+		event.getDataTransfer().setData("text/plain", "bzzz");
 	}
-	@UiHandler("bee")
-	public void beeDragEnd(DragEndEvent event) {
-		GWT.log("beeDragEnd");
-	}
-	@UiHandler("bee")
-	public void beeDrag(DragEvent event) {
-		GWT.log("beeDrag");
-	}
-	@UiHandler("bee")
-	public void beeDrop(DropEvent event) {
-		GWT.log("beeDrop");
-	}
-
 }
