@@ -60,7 +60,7 @@
 			<g:customHeader><g:Label styleName="{mainBundle.css.tab}">Drag-And-Drop</g:Label></g:customHeader>
 			<g:FlowPanel>
 				<g:SimplePanel>
-					<g:FlowPanel ui:field="container" styleName="{mainBundle.css.sample}">
+					<g:FlowPanel ui:field="container" styleName="{resources.css.svgBackground}">
 					  <g:Label styleName="{style.instructions} {style.unselectable}">Drag the bee over the flowers.</g:Label>
 					  <svgui:SVGImage ui:field="flower1" resource="{resources.flower1}" classNameBaseVal="{style.pos1}"/>
 					  <svgui:SVGImage ui:field="flower2" resource="{resources.flower2}" classNameBaseVal="{style.pos2}"/>

@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+
+@url checkerUrl svgCheckerResource;
+
+.svg-background {
+	top: 10px;
+	left: 10px;
+	right: 10px;
+	bottom: 10px;
+	position: absolute;
+	overflow: auto;
+	border:1px solid black;
+	background-image: checkerUrl;
+}

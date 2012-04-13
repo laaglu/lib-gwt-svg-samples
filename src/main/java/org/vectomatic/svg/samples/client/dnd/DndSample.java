@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -23,6 +24,11 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 public class DndSample extends SampleBase {
+	public interface DndCss extends CssResource {
+		@ClassName("svg-background")
+		public String svgBackground();
+	}
+	
 	public interface DndSampleBundle extends ClientBundle {
 		
 		@Source("bee_forestgreen.svg")
@@ -39,6 +45,10 @@ public class DndSample extends SampleBase {
 		SVGResource fruit2();
 		@Source("Gerald_G_Simple_Fruit_5.svg")
 		SVGResource fruit3();
+		@Source("background.svg")
+		SVGResource svgCheckerResource();
+		@Source("dnd.css")
+		DndCss css();
 	}
 	@UiField(provided=true)
 	public static DndSampleBundle resources = GWT.create(DndSampleBundle.class);
@@ -70,10 +80,12 @@ public class DndSample extends SampleBase {
 	@Override
 	public TabLayoutPanel getPanel() {
 		if (tabPanel == null) {
+			resources.css().ensureInjected();
 			tabPanel = binder.createAndBindUi(this);
 			tabPanel.setTabText(0, "Drag-And-Drop");
 			createCodeTabs("DndSample");
 			bee.getElement().setAttribute("draggable", "true");
+			GWT.log(resources.svgCheckerResource().getUrl());
 		}
 		return tabPanel;
 	}
