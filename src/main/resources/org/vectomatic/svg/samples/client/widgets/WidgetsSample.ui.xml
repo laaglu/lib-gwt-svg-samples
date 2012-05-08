@@ -199,7 +199,7 @@
 					    <g:layer right="0" width="50%" top="10%" height="40%">
 							  <!-- SVGImage using SVG provided inline. Notice the bindings to internal elements -->
 							  <svgui:SVGImage>
-								<svg viewBox="80 190 140 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+								<svg width="100%" height="100%" viewBox="80 190 140 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
 									<path d="m 208,146.86218 a 63,63.5 0 1 1 -126,0 63,63.5 0 1 1 126,0 z" style="fill:#ffff00;stroke:#000000;" transform="translate(3.9895924,108.83705)" />
 									<g ui:field="eyes" transform="translate(10.960155,103.59114)">
 										<path d="m 124,133.36218 c 0,4.97057 -4.02944,9 -9,9 -4.97056,0 -9,-4.02943 -9,-9 0,-4.97056 4.02944,-9 9,-9 4.97056,0 9,4.02944 9,9 z" class="{style.eye}" />

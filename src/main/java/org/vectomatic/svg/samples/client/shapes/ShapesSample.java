@@ -32,6 +32,7 @@ import org.vectomatic.svg.samples.client.Main.MainBundle;
 import org.vectomatic.svg.samples.client.SampleBase;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Element;
@@ -66,6 +67,8 @@ public class ShapesSample extends SampleBase {
 			// Create the root svg element
 			svg =  doc.createSVGSVGElement();
 			svg.setViewBox(0f, 0f, 300f, 200f);
+			svg.getWidth().getBaseVal().newValueSpecifiedUnits(Unit.PCT, 100);
+			svg.getHeight().getBaseVal().newValueSpecifiedUnits(Unit.PCT, 100);
 
 			// Create a rect
 			OMSVGRectElement rect = doc.createSVGRectElement(5f, 35f, 50f, 20f, 4f, 4f);
