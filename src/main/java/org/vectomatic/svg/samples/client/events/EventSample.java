@@ -62,8 +62,7 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 	@UiField
 	HTML svgContainer;
 	private boolean dragging;
-	private float x0, y0;
-	private OMSVGPoint p;
+	private OMSVGPoint p0;
 	private OMSVGSVGElement svg;
 	private OMSVGRectElement square;
 
@@ -142,9 +141,14 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		if (dragging) {
-			OMSVGPoint d = getLocalCoordinates(event).substract(p);
-			square.getX().getBaseVal().setValue(x0 + d.getX());
-			square.getY().getBaseVal().setValue(y0 + d.getY());
+			OMSVGPoint p = getLocalCoordinates(event);
+			float dx = p.getX() - p0.getX();
+			float dy = p.getY() - p0.getY();
+			float x = square.getX().getBaseVal().getValue();
+			float y = square.getY().getBaseVal().getValue();
+			square.getX().getBaseVal().setValue(x + dx);
+			square.getY().getBaseVal().setValue(y + dy);
+			p0 = p;
 		}
 		event.stopPropagation();
 		event.preventDefault();
@@ -161,7 +165,7 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 	 */
 	public OMSVGPoint getLocalCoordinates(MouseEvent<? extends EventHandler> e) {
 		OMSVGPoint p = svg.createSVGPoint(e.getClientX(), e.getClientY());
-		OMSVGMatrix m = svg.getScreenCTM().inverse();
+		OMSVGMatrix m = square.getScreenCTM().inverse();
 		return p.matrixTransform(m);
 	}
 
@@ -169,9 +173,7 @@ public class EventSample extends SampleBase implements MouseUpHandler, MouseMove
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		dragging = true;
-		p = getLocalCoordinates(event);
-		x0 = square.getX().getBaseVal().getValue();
-		y0 = square.getY().getBaseVal().getValue();
+		p0 = getLocalCoordinates(event);
 		DOMHelper.setCaptureElement(square, null);
 		event.stopPropagation();
 		event.preventDefault();
