@@ -35,6 +35,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
@@ -146,25 +147,25 @@ public class Main implements EntryPoint {
 	    SplitLayoutPanel panel = binder.createAndBindUi(this);
 	    
 		// Populate the sample tree
-	    TreeItem shapesSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " shapes");
+	    TreeItem shapesSample = tree.addItem(SafeHtmlUtils.fromTrustedString(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " shapes"));
 	    shapesSample.setUserObject(new ShapesSample());
-	    TreeItem eventSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " events");
+	    TreeItem eventSample = tree.addItem(SafeHtmlUtils.fromTrustedString(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " events"));
 	    eventSample.setUserObject(new EventSample());
-	    TreeItem parserSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " parser");
+	    TreeItem parserSample = tree.addItem(SafeHtmlUtils.fromTrustedString(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " parser"));
 	    parserSample.setUserObject(new ParserSample());
-	    TreeItem featuresSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " features");
+	    TreeItem featuresSample = tree.addItem(SafeHtmlUtils.fromTrustedString(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " features"));
 	    featuresSample.setUserObject(new FeaturesSample());
-	    TreeItem widgetsSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " widgets");
+	    TreeItem widgetsSample = tree.addItem(SafeHtmlUtils.fromTrustedString(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " widgets"));
 	    widgetsSample.setUserObject(new WidgetsSample());
-	    TreeItem smilSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " SMIL animation");
+	    TreeItem smilSample = tree.addItem(SafeHtmlUtils.fromTrustedString(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " SMIL animation"));
 	    smilSample.setUserObject(new SmilSample());
-	    TreeItem xpathSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " XPath");
+	    TreeItem xpathSample = tree.addItem(SafeHtmlUtils.fromTrustedString(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " XPath"));
 	    xpathSample.setUserObject(new XPathSample());
 	    if (DOMHelper.hasFeature(SVGConstants.SVG_FEATURE_DND_EVENTS)) {
-	    	TreeItem dndSample = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " Drag-and-Drop");
+	    	TreeItem dndSample = tree.addItem(SafeHtmlUtils.fromTrustedString(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " Drag-and-Drop"));
 		    dndSample.setUserObject(new DndSample());
 	    }
-	    TreeItem about = tree.addItem(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " about");
+	    TreeItem about = tree.addItem(SafeHtmlUtils.fromTrustedString(AbstractImagePrototype.create(mainBundle.treeItem()).getHTML() +  " about"));
 	    about.setUserObject(new AboutSample());
 	    tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override
