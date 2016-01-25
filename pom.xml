@@ -7,7 +7,7 @@
 	</parent>
 	<artifactId>lib-gwt-svg-samples</artifactId>
 	<packaging>war</packaging>
-	<version>0.5.12</version>
+	<version>0.5.13-SNAPSHOT</version>
 	<name>lib-gwt-svg-samples</name>
 	<description>Samples to demonstrate basic use of lib-gwt-svg, a GWT library to access the SVG functionalities of web browsers</description>
 	<url>http://www.vectomatic.org/lib-gwt-svg-samples</url>
@@ -21,7 +21,7 @@
 		<url>scm:git:git://git/lib-gwt-svg-samples.git</url>
 		<connection>scm:git:git://git/lib-gwt-svg-samples.git</connection>
 		<developerConnection>scm:git:git://git/lib-gwt-svg-samples.git</developerConnection>
-	  <tag>0.5.12</tag>
+	  <tag>HEAD</tag>
   </scm>
 	<dependencies>
 		<dependency>
